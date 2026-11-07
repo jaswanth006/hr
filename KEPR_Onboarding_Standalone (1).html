@@ -1,0 +1,1660 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KEPR Onboarding – Standalone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --surface:#ffffff; --soft:#fff4ef; --soft2:#fbf7f5; --ink:#262121; --muted:#6e6866; --line:#ece2de;
+  --coral:#ee6a4f; --coral-ink:#c94a31; --peach:#f5b57e; --red:#e8524a; --green:#2e9e62; --green-soft:#eaf7ef; --warn:#b7791f; --warn-soft:#fff7e6;
+  --field:#ffffff; --shadow:0 1px 2px rgba(38,33,33,.06),0 8px 24px rgba(38,33,33,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171313; --surface:#211b1a; --soft:#2c2120; --soft2:#241e1d; --ink:#f3ecea; --muted:#b3a8a5; --line:#3a2f2d;
+    --coral:#f08066; --coral-ink:#f6a28d; --green:#5cc98d; --green-soft:#1d2e24; --warn:#e2b05a; --warn-soft:#2e2717;
+    --field:#1b1615; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171313; --surface:#211b1a; --soft:#2c2120; --soft2:#241e1d; --ink:#f3ecea; --muted:#b3a8a5; --line:#3a2f2d;
+  --coral:#f08066; --coral-ink:#f6a28d; --green:#5cc98d; --green-soft:#1d2e24; --warn:#e2b05a; --warn-soft:#2e2717;
+  --field:#1b1615; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+img{max-width:100%}
+.top{background:linear-gradient(115deg,var(--peach),var(--coral) 55%,var(--red));color:#fff}
+.top-in{max-width:1080px;margin:0 auto;padding:18px 20px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top img{width:44px;height:44px;border-radius:11px}
+.brand b{display:block;font-size:18px;line-height:1.2}
+.brand span{font-size:13px;opacity:.92}
+.tabs{margin-left:auto;display:flex;gap:6px;background:rgba(255,255,255,.18);padding:4px;border-radius:999px}
+.tabs button{border:0;background:transparent;color:#fff;padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600;font-size:14px}
+.tabs button[aria-selected="true"]{background:#fff;color:#c94a31}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 20px 60px}
+.layout{display:grid;grid-template-columns:230px 1fr;gap:28px;align-items:start}
+@media (max-width:820px){.layout{grid-template-columns:1fr}.rail{display:none}.mprog{display:block!important}}
+.rail{position:sticky;top:16px}
+.rail ol{list-style:none;margin:0;padding:0}
+.rail li{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;color:var(--muted);cursor:default;font-size:14px}
+.rail li .n{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--soft2);border:1px solid var(--line);flex:none}
+.rail li.done{color:var(--ink);cursor:pointer}
+.rail li.done .n{background:var(--green);border-color:var(--green);color:#fff}
+.rail li.cur{background:var(--soft);color:var(--ink);font-weight:600}
+.rail li.cur .n{background:var(--coral);border-color:var(--coral);color:#fff}
+.mprog{display:none;margin-bottom:14px}
+.mprog .bar{height:6px;background:var(--soft2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.mprog .bar i{display:block;height:100%;background:var(--coral);width:0;transition:width .25s}
+.mprog p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:26px}
+@media (max-width:560px){.card{padding:18px}}
+h1{font-size:24px;line-height:1.25;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 22px}
+h2{font-size:16px;margin:26px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+.f label.l{display:block;font-weight:600;font-size:13.5px;margin-bottom:5px}
+.f label.l .req{color:var(--coral)}
+.f .hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+.f input[type=text],.f input[type=tel],.f input[type=email],.f input[type=date],.f input[type=number],.f select,.f textarea{width:100%;background:var(--field);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;min-height:44px}
+.f textarea{min-height:84px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--coral);box-shadow:0 0 0 3px color-mix(in srgb,var(--coral) 22%,transparent)}
+.f.bad input,.f.bad select,.f.bad textarea{border-color:var(--red)}
+.f .err{display:none;color:var(--red);font-size:12.5px;margin-top:4px}
+.f.bad .err{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chip span{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;background:var(--field);cursor:pointer}
+.chip input:checked+span{background:var(--soft);border-color:var(--coral);color:var(--coral-ink);font-weight:600}
+.chip input:focus-visible+span{outline:2px solid var(--coral);outline-offset:2px}
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.roles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.role{border:1.5px solid var(--line);border-radius:14px;padding:16px;background:var(--field);cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:8px;min-height:128px}
+.role svg{width:30px;height:30px;color:var(--coral)}
+.role b{font-size:15.5px}
+.role small{color:var(--muted);font-size:13px;line-height:1.35}
+.role:hover{border-color:var(--coral)}
+.role[aria-pressed="true"]{border-color:var(--coral);background:var(--soft);box-shadow:0 0 0 3px color-mix(in srgb,var(--coral) 18%,transparent)}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.btn{border:1px solid var(--line);background:var(--field);padding:11px 18px;border-radius:10px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{border-color:var(--coral)}
+.btn.primary{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.primary:hover{filter:brightness(.96)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sm{padding:7px 12px;min-height:34px;font-size:13.5px}
+.btn:focus-visible,.role:focus-visible,.tabs button:focus-visible,.rail li:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.note{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--ink);margin:0 0 18px}
+.note.warn{background:var(--warn-soft)}
+/* photo */
+.ph{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:start}
+@media (max-width:700px){.ph{grid-template-columns:1fr}}
+.stage{position:relative;width:100%;max-width:300px;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:var(--soft2);border:1px dashed var(--line);display:grid;place-items:center;touch-action:none}
+.stage canvas{width:100%;height:100%;display:block;cursor:grab}
+.stage .empty{text-align:center;color:var(--muted);padding:20px;font-size:14px}
+.stage .guide{position:absolute;inset:12% 22% 30% 22%;border:2px dashed rgba(255,255,255,.75);border-radius:50% 50% 46% 46%;pointer-events:none;box-shadow:0 0 0 999px rgba(0,0,0,.08)}
+.ctrls .row{display:flex;align-items:center;gap:12px;margin:10px 0}
+.ctrls .row label{width:96px;font-size:13.5px;font-weight:600}
+.ctrls input[type=range]{flex:1;accent-color:var(--coral)}
+.ctrls .val{width:40px;text-align:right;font-size:12.5px;color:var(--muted)}
+.toggle{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;margin:4px 0 12px}
+.toggle input{width:20px;height:20px;accent-color:var(--coral)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* docs */
+.docs{display:grid;gap:10px}
+.doc{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--field)}
+.doc .ic{width:40px;height:40px;border-radius:10px;background:var(--soft);display:grid;place-items:center;flex:none;overflow:hidden}
+.doc .ic img{width:100%;height:100%;object-fit:cover}
+.doc .ic svg{width:20px;height:20px;color:var(--coral)}
+.doc .t{flex:1;min-width:0}
+.doc .t b{display:block;font-size:14px}
+.doc .t small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc{flex-wrap:wrap}@media (min-width:561px){.doc{flex-wrap:nowrap}}@media (max-width:560px){.doc .t{flex-basis:calc(100% - 60px)}}
+.doc.ok{border-color:color-mix(in srgb,var(--green) 45%,var(--line))}
+.doc.ok .ic{background:var(--green-soft)}
+.doc.bad{border-color:var(--red)}
+.pill{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--soft2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.pill.req{color:var(--coral-ink);background:var(--soft);border-color:transparent}
+.pill.ok{background:var(--green-soft);color:var(--green);border-color:transparent}
+.pill.pending{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pill.rej{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red);border-color:transparent}
+/* terms */
+.terms{border:1px solid var(--line);border-radius:12px;max-height:340px;overflow:auto;padding:4px 18px;background:var(--soft2)}
+.terms ol{padding-left:20px;margin:12px 0}
+.terms li{margin:0 0 9px;font-size:14px}
+.terms h3{font-size:14px;margin:14px 0 6px}
+.check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:14px}
+.check input{width:20px;height:20px;margin-top:1px;accent-color:var(--coral);flex:none}
+.sig{border:1px solid var(--line);border-radius:12px;background:#fff;position:relative;height:160px;touch-action:none}
+.sig canvas{width:100%;height:100%;display:block;cursor:crosshair}
+.sig .ph-t{position:absolute;left:14px;bottom:10px;color:#9b908d;font-size:13px;pointer-events:none}
+/* review */
+.rv{display:grid;grid-template-columns:150px 1fr;gap:22px}
+@media (max-width:600px){.rv{grid-template-columns:1fr}}
+.rv img.p{width:150px;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+dl.kv{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:6px 14px;margin:0;font-size:14px}
+dl.kv dt{color:var(--muted)}
+dl.kv dd{margin:0;word-break:break-word}
+.rvsec{margin-bottom:18px}
+.rvsec h3{font-size:14px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center}
+.rvsec h3 button{font-size:12.5px;border:0;background:none;color:var(--coral-ink);cursor:pointer;font-weight:600}
+.progress{margin-top:16px;display:none}
+.progress .bar{height:8px;background:var(--soft2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.progress .bar i{display:block;height:100%;width:0;background:var(--green);transition:width .2s}
+.progress p{font-size:13px;color:var(--muted);margin:6px 0 0}
+.done-box{text-align:center;padding:30px 10px}
+.done-box .tick{width:64px;height:64px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;margin:0 auto 14px}
+.done-box .tick svg{width:32px;height:32px;color:var(--green)}
+.done-box code{background:var(--soft);padding:3px 8px;border-radius:6px;font-weight:700}
+/* records */
+.rbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.rbar input[type=search],.rbar>select{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:40px}
+.rbar input[type=search]{flex:1;min-width:180px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12.5px;color:var(--muted);font-weight:600;background:var(--soft2)}
+tr:last-child td{border-bottom:0}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--soft2)}
+.av{width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--soft);vertical-align:middle}
+.empty-r{padding:34px;text-align:center;color:var(--muted)}
+dialog{border:0;border-radius:16px;padding:0;max-width:760px;width:calc(100% - 24px);background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(20,14,13,.45)}
+.dlg-h{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+.dlg-h h3{margin:0;font-size:17px;flex:1}
+.dlg-b{padding:20px;max-height:70vh;overflow:auto}
+.okbar{display:flex;gap:12px;align-items:center;background:var(--green-soft);border-radius:12px;padding:12px 14px;margin-bottom:20px;font-size:14px}
+.okbar .tick{width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;flex:none}.okbar .tick svg{width:18px;height:18px}
+.okbar span{color:var(--muted)}.okbar code{background:var(--surface);padding:1px 6px;border-radius:5px;font-weight:700;color:var(--ink)}
+.ole{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:start}
+@media (max-width:860px){.ole{grid-template-columns:1fr}}
+.olf .f{margin-bottom:10px}.olstat{margin:4px 0 10px}
+.olp{border:1px solid var(--line);border-radius:12px;background:#ece6e4;padding:14px;overflow:auto;max-height:78vh}
+.letter{background:#fff;color:#262121;max-width:640px;margin:0 auto;padding:30px 34px;font-size:12px;line-height:1.5;box-shadow:0 2px 10px rgba(0,0,0,.12);border-top:5px solid #ee6a4f;font-family:Arial,Helvetica,sans-serif}
+.letter .lh{display:flex;gap:10px;align-items:center;border-bottom:1px solid #ece2de;padding-bottom:10px;margin-bottom:12px}
+.letter .lh img{width:40px;height:40px;border-radius:9px}.letter .ln b{display:block;font-size:16px}.letter .ln span,.letter .lr{color:#6e6866;font-size:10.5px}
+.letter .lr{margin-left:auto;text-align:right}
+.letter .lmeta{display:flex;justify-content:space-between;color:#6e6866;font-size:11px;margin-bottom:10px}
+.letter p{margin:0 0 9px}.letter .lsub{font-weight:700;font-size:13px}
+.letter .ltb{width:100%;border-collapse:collapse;margin:4px 0 12px}.letter .ltb th,.letter .ltb td{text-align:left;padding:4px 8px;font-size:11.5px;border:0;white-space:normal}
+.letter .ltb th{color:#6e6866;width:38%;background:transparent;font-weight:700}.letter .ltb tr:nth-child(odd){background:#fff6f2}
+.letter ol{padding-left:18px;margin:0 0 10px}.letter li{margin-bottom:4px;font-size:11.5px}.letter li::marker{color:#ee6a4f;font-weight:700}
+.letter .lsig{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}.letter .lsig b{display:block;margin-bottom:28px}.letter .lsig i{display:block;border-top:1px solid #6e6866;margin-bottom:4px}.letter .lsig small{display:block;color:#6e6866;font-size:11px}
+dialog.wide{max-width:1040px}
+#bkBar:not([hidden]){display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.kpi span{display:block;font-size:13px;color:var(--muted)}.kpi b{display:block;font-size:26px;line-height:1.2;margin:4px 0 2px;font-variant-numeric:tabular-nums}.kpi small{font-size:12.5px;color:var(--muted)}
+.kpi:first-child b{color:var(--coral-ink)}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.dgrid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.panel.wide{grid-column:1/-1}.panel h3{margin:0;font-size:15px}.panel .sub{margin:2px 0 10px;font-size:12.5px;color:var(--muted)}.panel h3+.hb,.panel h3+.dlist,.panel h3+.dempty{margin-top:12px}
+.hb{display:grid;gap:8px}.hbr{display:grid;grid-template-columns:minmax(90px,34%) 1fr 48px;gap:10px;align-items:center;font-size:13.5px}
+.hbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.hbt{background:var(--soft2);border-radius:99px;height:12px;overflow:hidden}.hbt i{display:block;height:100%;background:var(--coral);border-radius:99px}.hbr b{text-align:right;font-variant-numeric:tabular-nums}
+.vb{display:flex;align-items:flex-end;gap:10px;height:190px;padding-top:18px;border-bottom:1px solid var(--line)}
+.vbc{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;min-width:0}
+.vbbars{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.vbb{position:relative;width:min(22px,40%);border-radius:5px 5px 0 0;min-height:2px}.vbb em{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:10.5px;font-style:normal;color:var(--muted);white-space:nowrap;padding-bottom:2px}
+.vbl{font-size:11.5px;color:var(--muted);padding:6px 0 0;white-space:nowrap}
+.s1{background:var(--peach)}.s2{background:var(--coral)}.s3{background:var(--ink);opacity:.55}
+.leg{display:flex;gap:14px;margin-top:10px;font-size:12.5px;color:var(--muted)}.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.dlist{list-style:none;margin:0;padding:0}.dlist li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.dlist li:last-child{border-bottom:0}
+.dlist li .av{flex:none;width:30px;height:30px}.dlist li span:not(.av){color:var(--muted);font-size:13px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dlist li em{font-style:normal;font-size:13px;color:var(--muted);white-space:nowrap}
+.dempty{color:var(--muted);font-size:13.5px;margin:12px 0 0}
+.tabs{flex-wrap:wrap}
+.paysum{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:14px}
+@media (max-width:700px){.paysum{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.paysum div{background:var(--soft2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.paysum span{display:block;font-size:12.5px;color:var(--muted)}.paysum b{font-size:17px}
+.paytbl td,.paytbl th{padding:8px 8px}.paytbl tbody tr{cursor:default}
+.paytbl .sticky{position:sticky;left:0;background:var(--surface);z-index:1;min-width:170px;white-space:normal}
+.paytbl th.sticky{background:var(--soft2)}.paytbl small{color:var(--muted)}
+.pin{width:78px;min-height:34px;border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--field)}
+select.pin{width:56px}
+.pchk{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;white-space:nowrap}.pchk input{accent-color:var(--coral);width:17px;height:17px}
+.exgrid{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+@media (max-width:820px){.exgrid{grid-template-columns:1fr}}
+.fnf{position:sticky;top:0;background:var(--soft2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.fnf h3{margin:0 0 10px;font-size:15px}
+.fnftot{margin-top:12px;background:var(--green-soft);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13.5px}
+.fnftot b{font-size:18px;color:var(--green)}.fnftot.neg{background:color-mix(in srgb,var(--red) 12%,transparent)}.fnftot.neg b{color:var(--red)}
+.letter .lphoto{float:right;width:84px;aspect-ratio:3/4;object-fit:cover;border:1px solid #ece2de;margin:0 0 8px 12px}.letter .ldoc{display:block;max-width:100%;max-height:520px;margin:6px auto 12px;border:1px solid #ece2de}.letter .lsub{clear:both}
+.letter.annex{margin-top:14px}.letter h5{color:#ee6a4f;font-size:12.5px;margin:12px 0 4px}.letter ul{margin:0 0 6px;padding-left:16px}.letter ul li{font-size:11.5px;margin-bottom:3px}.letter .ack{border-top:1px solid #ece2de;margin-top:14px;padding-top:10px}.letter .ack .lsig{margin-top:30px}.letter .ack .lsig i{margin-bottom:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.toast.on{opacity:1}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- responsive: laptop and phone ---- */
+.wrap{max-width:1200px}
+.top-in{max-width:1200px}
+.tabs button svg{display:none}
+.av{flex:none;min-width:34px;max-width:34px}
+.tabs button span{pointer-events:none}
+.tl-short{display:none}
+@media (max-width:640px){.tl-long{display:none}.tl-short{display:inline}}
+@media (max-width:640px){
+ .top-in{padding:12px 14px}
+ .top img{width:36px;height:36px;border-radius:9px}
+ .brand b{font-size:16px}.brand span{font-size:12px}
+ .tabs{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));justify-content:space-around;flex-wrap:nowrap;z-index:40;box-shadow:0 -4px 18px rgba(0,0,0,.08);gap:2px}
+ .tabs button{flex:1 1 0;min-width:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:6px 2px;border-radius:12px;line-height:1.1}
+ .tabs button svg{display:block;width:22px;height:22px}
+ .tabs button span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+ .tabs button[aria-selected="true"]{background:var(--soft);color:var(--coral-ink)}
+ body{padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+ .wrap{padding:14px 12px 24px}
+ .card{padding:16px;border-radius:14px}
+ h1{font-size:21px}.lead{font-size:14px;margin-bottom:16px}
+ .toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+ dialog{width:100%;max-width:100%!important;height:100dvh;max-height:100dvh;margin:0;border-radius:0}
+ dialog[open]{display:flex;flex-direction:column}
+ .dlg-h{padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+ .dlg-b{flex:1;max-height:none;padding:14px}
+ #viewRec th:nth-child(4),#viewRec td:nth-child(4),#viewRec th:nth-child(5),#viewRec td:nth-child(5),#viewRec th:nth-child(6),#viewRec td:nth-child(6){display:none}
+ #exitBody th:nth-child(4),#exitBody td:nth-child(4),#exitBody th:nth-child(5),#exitBody td:nth-child(5){display:none}
+ #viewRec td,#exitBody td{white-space:normal}
+ .rbar{gap:8px}.rbar .btn{flex:1 1 auto}
+ .kpi{padding:12px}.kpi b{font-size:21px}
+ .paysum b{font-size:15px}
+ .dhead{flex-wrap:wrap}
+ .ph .stage{max-width:100%}
+ .nav .btn{flex:1}
+ .olp{max-height:none;padding:8px}.letter{padding:18px 16px;font-size:11.5px}
+ .doc{gap:10px;padding:10px}
+}
+@media (min-width:641px) and (max-width:900px){.tabs button{padding:7px 10px;font-size:13px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <img src="data:image/png;base64,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" alt="KEPR logo">
+    <div class="brand"><b>KEPR Care &amp; Services</b><span>Staff and vendor onboarding</span></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabDash" aria-selected="false" hidden aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span class="tl">Dashboard</span></button>
+      <button role="tab" id="tabNew" aria-selected="true" aria-label="New onboarding"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="8" r="4"/><path d="M3 20c0-3.3 3.1-6 7-6"/><path d="M18 14v6M15 17h6"/></svg><span class="tl tl-long">New onboarding</span><span class="tl tl-short">New</span></button>
+      <button role="tab" id="tabRec" aria-selected="false" aria-label="Records"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span class="tl">Records</span></button>
+      <button role="tab" id="tabPay" aria-selected="false" hidden aria-label="Salary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/><path d="M6 10v5M18 10v5"/></svg><span class="tl">Salary</span></button>
+      <button role="tab" id="tabExit" aria-selected="false" hidden aria-label="Exits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/></svg><span class="tl">Exits</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="viewNew">
+    <div class="layout">
+      <nav class="rail" aria-label="Steps"><ol id="rail"></ol></nav>
+      <div>
+        <div class="mprog"><div class="bar"><i id="mbar"></i></div><p id="mtxt"></p></div>
+        <div class="card" id="stepCard"></div>
+      </div>
+    </div>
+  </section>
+  <section id="viewDash" hidden>
+    <div class="dhead"><div><h1>Dashboard</h1><p class="lead" style="margin:0">Staff, salaries and letters at a glance.</p></div><div class="btnrow" style="margin:0"><button class="btn sm" id="dashRefresh">Refresh</button></div></div>
+    <div class="note" id="bkBar" hidden><span style="flex:1;min-width:220px">All data is saved in this browser on this device only. Download a backup regularly, and use Restore to move data to another computer.</span><button class="btn sm" id="bkSave">Download backup</button><button class="btn sm" id="bkLoad">Restore backup</button></div>
+    <div id="dashBody"></div>
+  </section>
+  <section id="viewPay" hidden>
+    <div class="card">
+      <h1>Salary management</h1>
+      <p class="lead">Add staff, enter absences, advances and deductions for the month, record what was paid, and download payslips.</p>
+      <div class="rbar">
+        <label class="f" style="display:flex;align-items:center;gap:8px;margin:0"><span style="font-weight:600;font-size:13.5px">Month</span><input type="month" id="payMonth" style="min-height:40px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--field)"></label>
+        <label class="pchk"><input type="checkbox" id="pay_pf"> PF 12%</label>
+        <label class="pchk"><input type="checkbox" id="pay_esi"> ESI 0.75%</label>
+        <label class="pchk"><input type="checkbox" id="pay_pt"> Professional tax</label>
+        <label class="pchk">Paid leave / month <select id="pay_leave" style="margin-left:4px;border:1px solid var(--line);border-radius:8px;padding:4px;background:var(--field)"><option>0</option><option>1</option><option>2</option></select></label>
+        <span style="flex:1"></span>
+        <button class="btn sm" id="payAdd">Add employee</button><button class="btn sm" id="payCsv">Export CSV</button><button class="btn sm" id="paySave">Save salaries</button>
+      </div>
+      <div id="payBody"></div>
+    </div>
+  </section>
+  <section id="viewExit" hidden>
+    <div class="card">
+      <h1>Exits and termination</h1>
+      <p class="lead">Record resignations, terminations and vendor exits, settle dues, and issue the exit letter.</p>
+      <div class="rbar"><input type="search" id="exq" placeholder="Search name, phone, site or ID" aria-label="Search"><select id="exshow" aria-label="Show"><option value="active">Active</option><option value="exited">Exited</option><option value="all">All</option></select><button class="btn sm" id="exRefresh">Refresh</button></div>
+      <div id="exitBody"></div>
+    </div>
+  </section>
+  <section id="viewRec" hidden>
+    <div class="card">
+      <h1 id="recTitle">Records</h1>
+      <p class="lead" id="recLead">Everyone onboarded through this tool.</p>
+      <div class="rbar">
+        <input type="search" id="rq" placeholder="Search name, phone, site or ID" aria-label="Search records">
+        <select id="rrole" aria-label="Filter by role"><option value="">All roles</option></select>
+        <button class="btn sm" id="rrefresh">Refresh</button>
+        <button class="btn sm" id="rcsv" hidden>Export CSV</button>
+      </div>
+      <div class="tbl"><table><thead><tr><th></th><th>Name</th><th>Role</th><th>Site</th><th>Phone</th><th>Submitted</th><th>Offer letter</th></tr></thead><tbody id="rbody"></tbody></table></div>
+      <div class="empty-r" id="rempty" hidden></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg"><div class="dlg-h"><h3 id="dlgT"></h3><button class="btn sm" id="dlgX">Close</button></div><div class="dlg-b" id="dlgB"></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="hiddenFile" class="sr" tabindex="-1" aria-hidden="true">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+"use strict";
+/* ---------------- config ---------------- */
+const ICONS={
+ security:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+ housekeeping:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l-4 9"/><path d="M6 12h10l2 9H4l2-9z"/><path d="M9 16v5M13 16v5"/></svg>',
+ stp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z"/><path d="M9 15a3 3 0 003 3"/></svg>',
+ gardener:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 5-3 8-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 4 2.5 6.5 7 5.5z"/></svg>',
+ vendor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M3 13h18"/></svg>',
+ other:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 00-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 005.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg>',
+ file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>',
+ tick:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
+};
+const ROLES=[
+ {id:'security',name:'Security guard',desc:'Gate, visitors, vehicles and patrols'},
+ {id:'housekeeping',name:'Housekeeping',desc:'Common area cleaning and waste'},
+ {id:'stp',name:'STP operator',desc:'Sewage treatment plant operation'},
+ {id:'gardener',name:'Gardener',desc:'Lawns, plants and landscaping'},
+ {id:'vendor',name:'Vendor',desc:'Agency, contractor or service provider'},
+ {id:'other',name:'Other staff',desc:'Electrician, plumber, supervisor and more'}
+];
+const roleName=id=>(ROLES.find(r=>r.id===id)||{}).name||id;
+const LANGS=['Kannada','Hindi','English','Tamil','Telugu','Malayalam','Bengali','Odia','Other'];
+const YN=['Yes','No'];
+const RX={
+ phone:[/^[6-9]\d{9}$/,'Enter a 10-digit mobile number'],
+ aadhaar:[/^\d{12}$/,'Enter the 12-digit Aadhaar number'],
+ pan:[/^[A-Z]{5}\d{4}[A-Z]$/,'Enter a valid PAN, like ABCDE1234F'],
+ ifsc:[/^[A-Z]{4}0[A-Z0-9]{6}$/,'Enter a valid IFSC, like SBIN0001234'],
+ pin:[/^\d{6}$/,'Enter the 6-digit PIN code'],
+ email:[/^[^\s@]+@[^\s@]+\.[^\s@]+$/,'Enter a valid email address'],
+ gstin:[/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/,'Enter a valid 15-character GSTIN'],
+ acct:[/^\d{9,18}$/,'Enter 9 to 18 digits'],
+ upi:[/^[\w.\-]{2,}@[a-zA-Z]{2,}$/,'Enter a valid UPI ID, like name@okbank']
+};
+const F=(id,label,type,o)=>Object.assign({id,label,type},o||{});
+const STAFF_STEPS={
+ personal:{title:'Personal details',lead:'As per the Aadhaar card, so verification goes smoothly.',sections:[
+  {h:'Identity',fields:[
+   F('full_name','Full name','text',{req:1,full:1}),
+   F('father_name',"Father's or spouse's name",'text',{req:1}),
+   F('dob','Date of birth','date',{req:1}),
+   F('gender','Gender','select',{req:1,options:['Male','Female','Other']}),
+   F('blood_group','Blood group','select',{options:['A+','A-','B+','B-','O+','O-','AB+','AB-','Not known']}),
+   F('aadhaar','Aadhaar number','text',{rx:'aadhaar',inputmode:'numeric',mask:'digits',hint:'Optional. 12 digits, no spaces'}),
+   F('pan','PAN','text',{rx:'pan',upper:1}),
+   F('languages','Languages known','chips',{options:LANGS,full:1})]},
+  {h:'Contact',fields:[
+   F('phone','Mobile number','tel',{req:1,rx:'phone',inputmode:'numeric',mask:'digits'}),
+   F('alt_phone','Alternate number','tel',{rx:'phone',inputmode:'numeric',mask:'digits'}),
+   F('email','Email','email',{rx:'email',full:1}),
+   F('cur_address','Current address','textarea',{req:1,full:1}),
+   F('city','City','text',{req:1}),
+   F('pincode','PIN code','text',{req:1,rx:'pin',inputmode:'numeric',mask:'digits'}),
+   F('perm_same','Permanent address is the same as current','check',{full:1}),
+   F('perm_address','Permanent address','textarea',{req:1,full:1,showIf:v=>!v.perm_same}),
+   F('native_state','Native state','text')]},
+  {h:'Emergency contact',fields:[
+   F('em_name','Emergency contact name','text',{req:1}),
+   F('em_relation','Relation to employee','select',{req:1,options:['Father','Mother','Spouse','Brother','Sister','Son','Daughter','Friend','Other']}),
+   F('em_phone','Emergency contact mobile','tel',{req:1,rx:'phone',inputmode:'numeric',mask:'digits'})]}
+ ]},
+ work:{title:'Work and payment',lead:'Posting, pay and bank details for salary.',sections:[
+  {h:'Posting',fields:[
+   F('other_role','Job title','text',{req:1,showIf:(v,r)=>r==='other',hint:'For example: Electrician, Plumber, Supervisor'}),
+   F('site','Assigned site / apartment','text',{req:1,full:1}),
+   F('joining_date','Date of joining','date',{req:1}),
+   F('shift','Shift','select',{req:1,options:['Day','Night','Rotational','General']}),
+   F('salary','Monthly salary (₹)','number',{req:1,min:0}),
+   F('exp_years','Experience (years)','number',{req:1,min:0,step:0.5}),
+   F('last_employer','Last employer','text'),
+   F('ref_name','Reference name','text'),
+   F('ref_phone','Reference mobile','tel',{rx:'phone',inputmode:'numeric',mask:'digits'}),
+   F('uan','UAN (PF), if any','text',{inputmode:'numeric'}),
+   F('esic','ESIC number, if any','text',{inputmode:'numeric'})]},
+  {h:'Uniform',fields:[
+   F('shirt','Shirt size','select',{options:['S','M','L','XL','XXL','XXXL']}),
+   F('shoe','Shoe size (UK)','select',{options:['5','6','7','8','9','10','11','12']})]},
+  {h:'Salary payment',fields:[
+   F('pay_mode','Payment mode','select',{req:1,options:['Bank transfer','UPI','Cash'],hint:'Cash: salary paid in hand against a signed salary register'}),
+   F('bank_holder','Account holder name','text',{req:1,showIf:v=>v.pay_mode==='Bank transfer'}),
+   F('bank_acct','Account number','text',{req:1,rx:'acct',inputmode:'numeric',mask:'digits',showIf:v=>v.pay_mode==='Bank transfer'}),
+   F('bank_acct2','Confirm account number','text',{req:1,inputmode:'numeric',mask:'digits',match:'bank_acct',showIf:v=>v.pay_mode==='Bank transfer'}),
+   F('ifsc','IFSC','text',{req:1,rx:'ifsc',upper:1,showIf:v=>v.pay_mode==='Bank transfer'}),
+   F('bank_name','Bank and branch','text',{showIf:v=>v.pay_mode==='Bank transfer'}),
+   F('upi','UPI ID','text',{req:1,rx:'upi',showIf:v=>v.pay_mode==='UPI'})]}
+ ]}
+};
+const ROLE_STEP={
+ security:{title:'Security details',lead:'Background and duty readiness.',sections:[{h:'Security',fields:[
+  F('ex_service','Ex-serviceman','select',{req:1,options:YN}),
+  F('height','Height (cm)','number',{min:100}),
+  F('psara','PSARA / security training','select',{req:1,options:['Completed','In progress','Not done']}),
+  F('night_ok','Willing to do night duty','select',{req:1,options:YN}),
+  F('police_ver','Police verification','select',{req:1,options:['Done','Applied','Not yet']}),
+  F('sec_exp','Previous security experience','textarea',{full:1,hint:'Sites, type of posts, years'})]}]},
+ housekeeping:{title:'Housekeeping details',lead:'Skills and equipment experience.',sections:[{h:'Housekeeping',fields:[
+  F('machines','Machines used before','chips',{full:1,options:['Floor scrubber','Vacuum cleaner','High-pressure washer','Single-disc machine','None']}),
+  F('chem_trained','Trained on cleaning chemicals','select',{req:1,options:YN}),
+  F('deep_clean','Deep cleaning experience','select',{options:YN}),
+  F('work_areas','Areas handled before','chips',{full:1,options:['Lobbies & corridors','Lifts','Toilets','Basement & parking','Glass & facade','Gym / clubhouse']})]}]},
+ stp:{title:'STP operator details',lead:'Qualification and plant experience.',sections:[{h:'STP',fields:[
+  F('qualification','Qualification','select',{req:1,options:['ITI','Diploma','Degree','12th','10th','Below 10th']}),
+  F('stp_years','STP experience (years)','number',{req:1,min:0,step:0.5}),
+  F('plant_types','Plant types handled','chips',{full:1,options:['SBR','MBBR','MBR','FAB','Conventional ASP','Not sure']}),
+  F('tests','Tests you can do','chips',{full:1,options:['SV30','pH','MLSS','Chlorine','TDS']}),
+  F('max_kld','Largest plant handled (KLD)','number',{min:0}),
+  F('backwash','Can backwash sand / carbon filters','select',{req:1,options:YN})]}]},
+ gardener:{title:'Gardener details',lead:'Skills and working pattern.',sections:[{h:'Gardening',fields:[
+  F('g_skills','Skills','chips',{req:1,full:1,options:['Lawn mowing','Hedge trimming & pruning','Planting & potting','Irrigation / drip','Fertiliser & pest handling','Landscaping']}),
+  F('own_tools','Has own tools','select',{options:YN}),
+  F('visit_type','Working pattern','select',{req:1,options:['Full-time on site','Visiting (fixed days)']}),
+  F('visit_days','Visit days per month','number',{min:1,showIf:v=>v.visit_type==='Visiting (fixed days)'})]}]},
+ other:{title:'Skills and licences',lead:'Trade details for your role.',sections:[{h:'Trade',fields:[
+  F('trade_skills','Main skills','textarea',{req:1,full:1}),
+  F('licence','Licence / certificate number','text',{hint:'For example, electrical wireman licence'}),
+  F('licence_valid','Valid till','date')]}]}
+};
+const VENDOR_STEPS={
+ personal:{title:'Business details',lead:'Registered business information.',sections:[
+  {h:'Business',fields:[
+   F('business_name','Registered business name','text',{req:1,full:1}),
+   F('business_type','Business type','select',{req:1,options:['Proprietorship','Partnership','LLP','Private Limited','Other']}),
+   F('years_in_business','Years in business','number',{min:0}),
+   F('gstin','GSTIN','text',{rx:'gstin',upper:1,hint:'Leave blank if not GST registered'}),
+   F('pan','Business PAN','text',{req:1,rx:'pan',upper:1}),
+   F('services','Services offered','chips',{req:1,full:1,options:['Security manpower','Housekeeping manpower','STP O&M','Lift AMC','DG / transformer','Pest control','Plumbing / electrical','Gardening / landscaping','Water tanker','Other']}),
+   F('b_address','Registered address','textarea',{req:1,full:1}),
+   F('city','City','text',{req:1}),
+   F('pincode','PIN code','text',{req:1,rx:'pin',inputmode:'numeric',mask:'digits'})]},
+  {h:'Contact person',fields:[
+   F('full_name','Contact person name','text',{req:1}),
+   F('designation','Designation','text'),
+   F('phone','Mobile number','tel',{req:1,rx:'phone',inputmode:'numeric',mask:'digits'}),
+   F('alt_phone','Alternate / 24×7 number','tel',{rx:'phone',inputmode:'numeric',mask:'digits'}),
+   F('email','Email','email',{req:1,rx:'email',full:1})]}
+ ]},
+ work:{title:'Commercial and bank',lead:'Terms of engagement and payment details.',sections:[
+  {h:'Engagement',fields:[
+   F('site','Sites to be served','text',{req:1,full:1,hint:'Apartment names, separated by commas'}),
+   F('start_date','Start date','date',{req:1}),
+   F('pay_terms','Payment terms','select',{req:1,options:['Advance','7 days','15 days','30 days','45 days']}),
+   F('staff_count','Staff deployed (if manpower)','number',{min:0}),
+   F('pf_esi','PF / ESI registered','select',{req:1,options:['Yes','No','Not applicable']}),
+   F('insurance','Liability / workmen insurance','select',{req:1,options:YN}),
+   F('uniform_type','KEPR uniform for vendor staff','select',{req:1,options:['Complete KEPR uniform','KEPR badges'],hint:'Vendor staff must also wear the KEPR ID card'}),
+   F('attendance_channel','Attendance photos shared on','select',{req:1,options:['WhatsApp','KEPR app','WhatsApp and KEPR app']}),
+   F('rates','Rates agreed','textarea',{full:1,hint:'Or attach the rate card in Documents'}),
+   F('past_clients','Past clients / references','textarea',{full:1})]},
+  {h:'Bank details',fields:[
+   F('bank_holder','Account name','text',{req:1}),
+   F('bank_acct','Account number','text',{req:1,rx:'acct',inputmode:'numeric',mask:'digits'}),
+   F('bank_acct2','Confirm account number','text',{req:1,inputmode:'numeric',mask:'digits',match:'bank_acct'}),
+   F('ifsc','IFSC','text',{req:1,rx:'ifsc',upper:1}),
+   F('bank_name','Bank and branch','text'),
+   F('upi','UPI ID','text',{rx:'upi'})]}
+ ]}
+};
+function legacyDocs(r){
+ if(r==='vendor') return [
+  {id:'pan_card',label:'Business PAN card',req:1},
+  {id:'gst_cert',label:'GST certificate',req:0},
+  {id:'reg_cert',label:'Trade licence / registration certificate',req:1},
+  {id:'cheque',label:'Cancelled cheque',req:1},
+  {id:'owner_id',label:'Owner / contact person ID proof',req:1},
+  {id:'pf_esi_cert',label:'PF / ESI registration',req:0},
+  {id:'insurance_doc',label:'Insurance policy',req:0},
+  {id:'rate_card',label:'Rate card / quotation',req:0},
+  {id:'agreement',label:'Signed agreement',req:0},
+  {id:'other_docs',label:'Other documents',req:0,multi:1}];
+ const L=[
+  {id:'aadhaar_f',label:'Aadhaar card – front',req:1},
+  {id:'aadhaar_b',label:'Aadhaar card – back',req:1},
+  {id:'pan_doc',label:'PAN card',req:0},
+  {id:'bank_doc',label:'Bank passbook / cancelled cheque',req:S.v.pay_mode==='Bank transfer'?1:0},
+  {id:'addr_doc',label:'Address proof (if different from Aadhaar)',req:0}];
+ if(r==='security') L.push({id:'police',label:'Police verification certificate',req:0},{id:'psara_cert',label:'PSARA / security training certificate',req:0},{id:'ex_doc',label:'Ex-servicemen discharge book',req:0});
+ if(r==='stp') L.push({id:'qual_cert',label:'Qualification certificate (ITI / diploma)',req:1},{id:'stp_cert',label:'STP training / experience certificate',req:0});
+ if(r==='other') L.push({id:'licence_doc',label:'Licence / trade certificate',req:0});
+ L.push({id:'exp_letter',label:'Experience / relieving letter',req:0},{id:'other_docs',label:'Other documents',req:0,multi:1});
+ return L;
+}
+function docList(){return S.docList||[]}
+const DOC_SUGG=['Aadhaar card','PAN card','Bank passbook / cancelled cheque','Address proof','Police verification certificate','PSARA / training certificate','Qualification certificate','Experience letter','Driving licence','Voter ID','GST certificate','Trade licence','Rate card','Signed agreement','Insurance policy'];
+const POLICIES_STAFF=[
+ ['Working hours and attendance',['Your shift timings are as per the site roster shared by your supervisor. Report at least 10 minutes before the shift starts, in uniform.','Mark attendance at the start and end of every shift on the KEPR app, biometric device or site register, as instructed.','Being late 3 times in a month is treated as half a day of absence. Leaving the post before the reliever arrives is not allowed.','Absence for 3 or more consecutive days without informing the supervisor is treated as unauthorised absence and may lead to termination after notice.']],
+ ['Leave and holidays',['There is no weekly off.','You may take 1 day of leave per month, with prior information to your supervisor at least 2 days in advance. In an emergency, inform your supervisor before your shift starts.','Any other absence, or leave taken without prior information, is treated as loss of pay.','National and festival holidays are as notified by KEPR.']],
+ ['Salary, overtime and deductions',['Salary is paid monthly by the 10th of the following month, with a salary slip.','Statutory deductions (PF, ESI and professional tax) are made as applicable. Other deductions are made only as permitted by law, such as for absence or salary advances.','Overtime is paid only when approved in advance by the supervisor, at rates as per applicable law.','Salary advances, if any, are given at KEPR\'s discretion and recovered from salary in agreed instalments.']],
+ ['Statutory benefits',['Provident Fund (PF) and Employees\' State Insurance (ESI) apply as per eligibility under law.','Bonus and gratuity are paid as per the Payment of Bonus Act and the Payment of Gratuity Act, where applicable.','Keep your Aadhaar, bank and nominee details updated with KEPR so benefits are not delayed.']],
+ ['Uniform, ID card and company property',['Wear the full KEPR uniform and display your ID card at all times on duty.','A uniform charge of Rs. 1,000 is deducted from your first month\'s salary.','ID card, equipment, keys and registers are KEPR property. Use them only for work and keep them in good condition.','Return all company property when you leave. The cost of unreturned items may be recovered as permitted by law.']],
+ ['Code of conduct',['Be polite and respectful to residents, visitors, colleagues and the association committee at all times.','Do not ask for or accept money, tips, gifts or favours from residents, visitors or vendors.','Do not do personal work for residents during duty hours, and do not enter any flat unless instructed by the supervisor.','Sleeping on duty, leaving the post unattended, gambling, and personal visitors at the post are not allowed.','Do not take part in political or religious activity on the client premises.']],
+ ['Alcohol, drugs and tobacco',['Alcohol, drugs and tobacco (including gutka and smoking) are strictly prohibited on duty and on client premises.','Reporting to duty under the influence leads to immediate removal from duty and disciplinary action.']],
+ ['Mobile phone and social media',['Use your phone only for duty-related calls and the KEPR app while on duty.','Do not take photos or videos of residents, their homes, vehicles or the premises, except when required for work reporting.','Do not post anything about the site, residents or KEPR on social media or messaging groups.']],
+ ['Confidentiality and data privacy',['Keep residents\' information private: names, flat numbers, phone numbers, visitors, vehicles and routines.','Do not share KEPR or client documents, registers or CCTV footage with anyone who is not authorised.','This duty continues after you leave KEPR.']],
+ ['Health, safety and PPE',['Use the safety gear given for your job, such as gloves, masks, boots and reflective jackets.','Report every accident, injury, near miss or hazard to your supervisor immediately.','Do not do electrical, height or machine work unless trained and authorised. Never enter any tank, sump or manhole.','Know the location of fire extinguishers, exits and the first-aid box at your site. In an emergency, call 112 and inform the supervisor.']],
+ ['Prevention of sexual harassment (POSH)',['KEPR has zero tolerance for sexual harassment at the workplace, as per the Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013.','Complaints can be made to the KEPR Internal Committee through team@kepr.in or +91 97396 98991. Complaints are handled confidentially and without retaliation.']],
+ ['Respect and equal opportunity',['KEPR does not discriminate on the basis of religion, caste, gender, language, region or disability.','Abusive language, threats, violence or bullying towards anyone is misconduct.']],
+ ['Transfers and deployment',['You may be deployed to any KEPR client site in Bengaluru based on operational needs, with prior notice.','Temporary relief duty at another site may be assigned when required.']],
+ ['Grievance redressal',['Raise any concern first with your site supervisor, then with the Area Manager.','If it is not resolved, write to team@kepr.in or call +91 97396 98991. KEPR aims to respond within 7 working days.','Raising a genuine grievance will never be held against you.']],
+ ['Disciplinary action',['Misconduct may lead to a verbal warning, written warning, suspension or termination, after a fair inquiry and a chance to explain.','Serious misconduct, such as theft, violence, harassment, intoxication on duty, sleeping on duty, abandoning the post, falsifying records or sharing residents\' information, may lead to immediate suspension pending inquiry.']],
+ ['Resignation and full and final settlement',['Your agreement with KEPR is for 6 months from the date of joining. If you leave before completing 6 months, a penalty of Rs. 20,000 applies.','Give written resignation with the notice period stated in your offer letter. KEPR may adjust unserved notice against dues as permitted by law.','Full and final settlement is made as per applicable law after all company property is returned.','A relieving or experience letter is issued on request after settlement.']],
+ ['Changes to policies',['KEPR may update these policies from time to time. Changes will be communicated in writing or on the KEPR app and apply from the date mentioned.']]
+];
+const POLICIES_VENDOR=[
+ ['Legal and labour compliance',['Comply with all applicable laws, including minimum wages, PF, ESI, the Contract Labour (Regulation and Abolition) Act where applicable, and professional tax.','Share proof of PF and ESI payments for deployed staff when KEPR asks.']],
+ ['Staff verification, uniform and ID',['Deploy only staff whose identity and background have been verified. Share their ID details and photos with KEPR before deployment.','Vendor staff must wear the KEPR uniform (the complete uniform or KEPR badges, as agreed with KEPR) and the KEPR ID card at all times on site.','KEPR uniforms, badges and ID cards remain KEPR property and must be returned when a staff member leaves or the engagement ends.']],
+ ['KEPR code of conduct',['The vendor and all its staff must follow the KEPR code of conduct: be polite to residents, visitors and the association; never ask for or accept money, tips or favours; no sleeping on duty or leaving the post without relief; and keep residents\' information private.','No alcohol, drugs or tobacco on client premises.','KEPR may ask the vendor to remove any staff member who breaks the code of conduct, and the vendor must replace them promptly.']],
+ ['Attendance and payment',['Share the daily attendance of all deployed staff, with attendance photos, on WhatsApp or the KEPR app as agreed.','Submit the signed monthly attendance sheet along with the invoice.','Payment is released only after KEPR receives and verifies the monthly attendance sheet and the attendance photos. Days without attendance proof are not paid.']],
+ ['Health, safety and PPE',['Provide trained staff and the safety equipment required for the work.','Report every accident, injury or hazard to KEPR immediately. Work at height, electrical work and confined spaces need trained, authorised staff and a safety plan.']],
+ ['Quality and service levels',['Deliver the agreed scope on schedule. Repeated service failures may lead to deductions as agreed in the purchase order, or termination.','Inform KEPR in advance of any change in staff, schedule or materials.']],
+ ['Subcontracting',['Do not subcontract any part of the work without KEPR\'s written approval.']],
+ ['Confidentiality and data',['Keep all KEPR, client and resident information confidential, during and after the engagement. Do not photograph or share client premises or residents\' details.']],
+ ['Anti-bribery and gifts',['Do not offer or give money, gifts or favours to KEPR staff, association members or residents to win or keep work.']],
+ ['Prevention of sexual harassment',['Maintain a POSH-compliant workplace for your staff and cooperate with any inquiry relating to conduct on KEPR client sites.']],
+ ['Invoicing',['Raise GST-compliant invoices with the attendance sheet and supporting work records. Payment is made as per the agreed payment terms after verification.']],
+ ['Insurance and liability',['Keep valid insurance for your staff and work where applicable. The vendor is liable for loss or damage caused by its staff, equipment or negligence.']],
+ ['Termination and changes',['Either party may end the engagement with 30 days\' written notice. KEPR may end it immediately for serious misconduct or safety breaches. KEPR may update these policies with written notice.']]
+];
+const TERMS_STAFF=[
+ 'All information and documents I have given are true and complete. False or hidden information may lead to immediate termination.',
+ 'I agree to identity, address, previous-employment and police verification by KEPR or an agency appointed by KEPR.',
+ 'I consent to KEPR Care & Services storing and using my personal data and documents for employment, payroll, statutory compliance (PF, ESI and others as applicable) and site security verification, and sharing them with the client association of my assigned site when required. I can ask KEPR to correct my data or withdraw consent, subject to legal and record-keeping requirements.',
+ 'My wages, working hours, leave, probation and notice period will be as stated in my appointment letter. Statutory benefits apply as per law.',
+ 'I will follow KEPR\'s code of conduct and training: wear the uniform and ID card on duty, report on time, and never leave my post without relief.',
+ 'I will not ask residents for money, tips or favours, and will not take up direct employment with the client association or residents while working with KEPR.',
+ 'I will keep residents\' information private (flat numbers, visitors, vehicles and routines), during and after my employment.',
+ 'Theft, intoxication on duty, sleeping on duty, abandoning the post or misbehaviour with residents may lead to immediate termination.',
+ 'Uniform, ID card, equipment and keys given to me remain KEPR property and must be returned when I leave.'];
+const TERMS_VENDOR=[
+ 'All information and documents provided are true, complete and valid. The vendor will inform KEPR of any change within 7 days.',
+ 'Work will be carried out at the rates, scope and payment terms agreed in the quotation / purchase order. Invoices will be GST-compliant where applicable.',
+ 'Payments will be made only after KEPR receives the monthly attendance sheet of the vendor\'s staff, along with attendance photos shared on WhatsApp or the KEPR app.',
+ 'Vendor staff will wear the KEPR uniform (the complete uniform or KEPR badges, as agreed) and the KEPR ID card at all times while on site.',
+ 'The vendor and all its staff will follow the KEPR code of conduct, site rules, safety practices and residents\' privacy.',
+ 'The vendor is solely responsible for its staff: wages, PF, ESI, insurance and all labour-law compliance. Vendor staff are not employees of KEPR.',
+ 'The vendor will keep KEPR and client information confidential during and after the engagement.',
+ 'The vendor will indemnify KEPR against loss, damage or claims caused by the vendor\'s staff, equipment or negligence.',
+ 'Either party may end the engagement with 30 days\' written notice; KEPR may end it immediately for serious misconduct or safety breaches.',
+ 'The vendor consents to KEPR storing and using the information and documents provided for vendor management, payments and compliance.'];
+const STEPS=[
+ {id:'role',name:'Role'},{id:'personal',name:'Personal details'},{id:'work',name:'Work and payment'},{id:'roleinfo',name:'Role details'},
+ {id:'photo',name:'Photo'},{id:'docs',name:'Documents'},{id:'terms',name:'Terms and signature'},{id:'review',name:'Review and submit'}];
+
+/* ---------------- state ---------------- */
+const S={step:0,role:'',v:{},photo:{img:null,auto:true,bright:0,contrast:0,sharp:35,zoom:1,ox:0,oy:0,blob:null,dirty:true},docs:{},docList:[],sigBlob:null,sigDrawn:false,agree:false,consent:false,signName:'',submitted:null};
+let DB=null,ASSETS=null,USER=null,DL=null,UID=null,CAN_EDIT=false;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('on'),2600)}
+const isVendor=()=>S.role==='vendor';
+function stepsFor(){return STEPS.map(s=>{
+ if(s.id==='personal') return Object.assign({},s,{name:isVendor()?'Business details':'Personal details'});
+ if(s.id==='work') return Object.assign({},s,{name:isVendor()?'Commercial and bank':'Work and payment'});
+ if(s.id==='photo') return Object.assign({},s,{name:isVendor()?'Contact photo':'Photo'});
+ return s;});}
+function formDef(id){
+ if(id==='personal') return (isVendor()?VENDOR_STEPS:STAFF_STEPS).personal;
+ if(id==='work') return (isVendor()?VENDOR_STEPS:STAFF_STEPS).work;
+ if(id==='roleinfo') return isVendor()?null:ROLE_STEP[S.role];
+ return null;}
+function activeSteps(){return stepsFor().filter(s=>!(s.id==='roleinfo'&&isVendor()));}
+
+/* draft */
+const DKEY='kepr-onboard-draft';
+let _idb=null,_dt=0;
+function idb(){if(_idb)return _idb;_idb=new Promise((res,rej)=>{try{const r=indexedDB.open('kepr-onboard',1);r.onupgradeneeded=()=>r.result.createObjectStore('d');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});return _idb}
+function idbOp(mode,fn){return idb().then(db=>new Promise((res,rej)=>{const t=db.transaction('d',mode);const rq=fn(t.objectStore('d'));t.oncomplete=()=>res(rq&&rq.result);t.onerror=()=>rej(t.error)}))}
+function dataURLtoBlob(u){const [h,b]=u.split(',');const bin=atob(b);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:(h.match(/data:([^;]+)/)||[])[1]||'image/png'})}
+function saveDraft(){if(S.submitted)return;clearTimeout(_dt);_dt=setTimeout(()=>{const P=S.photo;const d={role:S.role,v:S.v,step:S.step,docs:S.docs,docList:S.docList,photo:{srcBlob:P.srcBlob||null,auto:P.auto,bright:P.bright,contrast:P.contrast,sharp:P.sharp,zoom:P.zoom,ox:P.ox,oy:P.oy},sigImg:S.sigImg||null,agree:S.agree,consent:S.consent,signName:S.signName,savedAt:Date.now()};idbOp('readwrite',st=>st.put(d,'draft')).catch(()=>{try{localStorage.setItem(DKEY,JSON.stringify({role:S.role,v:S.v,step:Math.min(S.step,3)}))}catch(e){}})},400)}
+async function loadDraft(){let d=null;try{d=await idbOp('readonly',st=>st.get('draft'))}catch(e){}
+ if(!d){try{d=JSON.parse(localStorage.getItem(DKEY)||'null')}catch(e){}}
+ if(!d||!d.role)return;
+ S.role=d.role;S.v=d.v||{};S.docs=d.docs||{};S.agree=!!d.agree;S.consent=!!d.consent;S.signName=d.signName||'';
+ S.docList=Array.isArray(d.docList)?d.docList:legacyDocs(d.role).filter(x=>(S.docs[x.id]||[]).length).map(x=>({id:x.id,label:x.label}));
+ if(d.sigImg){try{S.sigImg=d.sigImg;S.sigBlob=dataURLtoBlob(d.sigImg);S.sigDrawn=true}catch(e){S.sigImg=null}}
+ if(d.photo&&d.photo.srcBlob){try{const im=await loadImage(d.photo.srcBlob);const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);Object.assign(S.photo,d.photo,{img:c,dirty:true});await exportPhoto()}catch(e){}}
+ S.step=Math.max(0,Math.min(d.step||0,activeSteps().length-1));
+}
+function clearDraft(){clearTimeout(_dt);idbOp('readwrite',st=>st.delete('draft')).catch(()=>{});try{localStorage.removeItem(DKEY)}catch(e){}}
+
+/* ---------------- rendering ---------------- */
+function renderRail(){
+ const st=activeSteps();
+ $('#rail').innerHTML=st.map((s,i)=>`<li class="${i<S.step?'done':''} ${i===S.step?'cur':''}" data-i="${i}" ${i<S.step?'tabindex="0" role="button"':''}><span class="n">${i<S.step?'✓':i+1}</span>${esc(s.name)}</li>`).join('');
+ $('#rail').querySelectorAll('li.done').forEach(li=>{const go=()=>{S.step=+li.dataset.i;render()};li.onclick=go;li.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+ $('#mbar').style.width=((S.step)/(st.length-1)*100)+'%';
+ $('#mtxt').textContent=`Step ${S.step+1} of ${st.length} · ${st[S.step].name}`;
+}
+function render(){
+ if(S.submitted) return renderDone();
+ saveDraft();
+ renderRail();
+ const id=activeSteps()[S.step].id;
+ const card=$('#stepCard');
+ if(id==='role') renderRole(card);
+ else if(id==='photo') renderPhoto(card);
+ else if(id==='docs') renderDocs(card);
+ else if(id==='terms') renderTerms(card);
+ else if(id==='review') renderReview(card);
+ else renderForm(card,formDef(id));
+ card.scrollIntoView({block:'start',behavior:'auto'});window.scrollTo({top:0});
+}
+function navHTML(nextLabel){
+ return `<div class="nav"><button class="btn" id="back" ${S.step===0?'style="visibility:hidden"':''}>Back</button><button class="btn primary" id="next">${nextLabel||'Continue'}</button></div>`;
+}
+function bindNav(onNext){
+ const b=$('#back');if(b)b.onclick=()=>{S.step=Math.max(0,S.step-1);render()};
+ $('#next').onclick=onNext;
+}
+function renderRole(card){
+ card.innerHTML=`<h1>Who are you onboarding?</h1><p class="lead">Pick the role. The form and document list adjust to it.</p>
+ <div class="roles">${ROLES.map(r=>`<button type="button" class="role" data-r="${r.id}" aria-pressed="${S.role===r.id}">${ICONS[r.id]}<b>${r.name}</b><small>${r.desc}</small></button>`).join('')}</div>
+ <p class="note" style="margin-top:18px">Keep the person's Aadhaar card, PAN, bank passbook and a well-lit spot for the photo ready. Everything you enter, including the photo, documents and signature, is saved on this device until you submit.</p>
+ ${S.role&&Object.keys(S.v).length?`<p style="margin:0;font-size:13.5px;color:var(--muted)">Saved details for <b>${esc(S.v.full_name||S.v.business_name||roleName(S.role))}</b> are loaded. <button class="btn sm" id="newForm" style="margin-left:6px">Clear and start fresh</button></p>`:''}
+ ${navHTML()}`;
+ const nf=$('#newForm');if(nf)nf.onclick=()=>{if(nf.dataset.c){reset();toast('Saved details cleared')}else{nf.dataset.c='1';nf.textContent='Tap again to clear'}};
+ card.querySelectorAll('.role').forEach(b=>b.onclick=()=>{if(S.role!==b.dataset.r){S.role=b.dataset.r;S.docs={};S.docList=[]}card.querySelectorAll('.role').forEach(x=>x.setAttribute('aria-pressed',x===b));saveDraft();renderRail()});
+ bindNav(()=>{if(!S.role){toast('Pick a role to continue');return}S.step++;saveDraft();render()});
+}
+function fieldVisible(f){return !f.showIf||f.showIf(S.v,S.role)}
+function fieldHTML(f){
+ if(!fieldVisible(f)) return '';
+ const val=S.v[f.id];const req=f.req?' <span class="req" aria-hidden="true">*</span>':'';
+ const cls=`f ${f.full?'full':''}`;const idA=`fld_${f.id}`;
+ const hint=f.hint?`<div class="hint">${esc(f.hint)}</div>`:'';
+ const err=`<div class="err" id="err_${f.id}"></div>`;
+ if(f.type==='check') return `<div class="${cls}"><label class="check"><input type="checkbox" id="${idA}" data-k="${f.id}" ${val?'checked':''}><span>${esc(f.label)}</span></label></div>`;
+ if(f.type==='chips'){const arr=Array.isArray(val)?val:[];return `<div class="${cls}" data-chips="${f.id}"><span class="l" style="display:block;font-weight:600;font-size:13.5px;margin-bottom:6px">${esc(f.label)}${req}</span><div class="chips" role="group" aria-label="${esc(f.label)}">${f.options.map(o=>`<label class="chip"><input type="checkbox" data-chip="${f.id}" value="${esc(o)}" ${arr.includes(o)?'checked':''}><span>${esc(o)}</span></label>`).join('')}</div>${hint}${err}</div>`}
+ let input;
+ const common=`id="${idA}" data-k="${f.id}" aria-describedby="err_${f.id}" ${f.req?'aria-required="true"':''}`;
+ if(f.type==='select') input=`<select ${common}><option value="">Select</option>${f.options.map(o=>`<option ${val===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+ else if(f.type==='textarea') input=`<textarea ${common}>${esc(val||'')}</textarea>`;
+ else input=`<input ${common} type="${f.type}" value="${esc(val==null?'':val)}" ${f.inputmode?`inputmode="${f.inputmode}"`:''} ${f.min!=null?`min="${f.min}"`:''} ${f.step?`step="${f.step}"`:''} ${f.upper?'style="text-transform:uppercase"':''} autocomplete="off">`;
+ return `<div class="${cls}" data-f="${f.id}"><label class="l" for="${idA}">${esc(f.label)}${req}</label>${input}${hint}${err}</div>`;
+}
+function renderForm(card,def){
+ card.innerHTML=`<h1>${esc(def.title)}</h1><p class="lead">${esc(def.lead)}</p>${def.sections.map(s=>`<h2>${esc(s.h)}</h2><div class="grid">${s.fields.map(fieldHTML).join('')}</div>`).join('')}${navHTML()}`;
+ const all=def.sections.flatMap(s=>s.fields);
+ card.querySelectorAll('[data-k]').forEach(el=>{
+  const f=all.find(x=>x.id===el.dataset.k);
+  const h=()=>{
+   let v=el.type==='checkbox'?el.checked:el.value;
+   if(f.mask==='digits'&&typeof v==='string'){const c=v.replace(/\D/g,'');if(c!==v){el.value=c;v=c}}
+   if(f.upper&&typeof v==='string') v=v.toUpperCase().trim();
+   S.v[f.id]=v;saveDraft();
+   const wrap=el.closest('.f');if(wrap&&wrap.classList.contains('bad'))validateField(f,wrap);
+   if(all.some(x=>x.showIf)&&(el.type==='checkbox'||el.tagName==='SELECT')){const y=window.scrollY;renderForm(card,def);window.scrollTo(0,y)}
+  };
+  el.addEventListener(el.tagName==='SELECT'||el.type==='checkbox'?'change':'input',h);
+  el.addEventListener('blur',()=>{const w=el.closest('.f');if(w&&el.value)validateField(f,w)});
+ });
+ card.querySelectorAll('[data-chip]').forEach(el=>el.addEventListener('change',()=>{
+  const k=el.dataset.chip;S.v[k]=[...card.querySelectorAll(`[data-chip="${k}"]:checked`)].map(x=>x.value);saveDraft();
+ }));
+ bindNav(()=>{if(validateAll(card,all)){S.step++;saveDraft();render()}});
+}
+function fieldError(f){
+ const v=S.v[f.id];
+ const empty=v==null||v===''||v===false||(Array.isArray(v)&&!v.length);
+ if(f.req&&empty) return f.type==='chips'?'Pick at least one':'Required';
+ if(!empty&&f.rx){const [re,msg]=RX[f.rx];if(!re.test(String(v).trim()))return msg}
+ if(f.match&&v!==S.v[f.match]) return 'Account numbers don\'t match';
+ if(f.type==='date'&&v&&f.id==='dob'){const age=(Date.now()-new Date(v))/3.15576e10;if(age<18)return 'Must be at least 18 years old';if(age>75)return 'Check the date of birth'}
+ return '';
+}
+function validateField(f,wrap){const e=fieldError(f);wrap.classList.toggle('bad',!!e);const el=wrap.querySelector('.err');if(el)el.textContent=e;return !e}
+function validateAll(card,all){
+ let first=null;
+ all.filter(fieldVisible).forEach(f=>{const w=card.querySelector(`[data-f="${f.id}"],[data-chips="${f.id}"]`);if(!w)return;if(!validateField(f,w)&&!first)first=w});
+ if(first){first.scrollIntoView({block:'center',behavior:'smooth'});const i=first.querySelector('input,select,textarea');if(i)i.focus({preventScroll:true});toast('Fix the highlighted fields');return false}
+ return true;
+}
+
+/* ---------------- photo ---------------- */
+function renderPhoto(card){
+ const P=S.photo;const opt=isVendor();
+ card.innerHTML=`<h1>${opt?'Contact person photo':'Profile photo'}</h1><p class="lead">${opt?'Required. Used for the KEPR ID card and vendor records.':'Used for the ID card and site records.'} Face the camera in good light, against a plain wall. The photo is enhanced and cropped to passport shape.</p>
+ <div class="ph">
+  <div>
+   <div class="stage" id="stage">${P.img?'<canvas id="pcv" width="600" height="800" aria-label="Photo preview. Drag to reposition."></canvas><div class="guide"></div>':'<div class="empty">No photo yet</div>'}</div>
+   <div class="btnrow"><button class="btn sm primary" id="pTake">Take photo</button><button class="btn sm" id="pUp">Upload photo</button>${P.img?'<button class="btn sm" id="pDel">Remove</button>':''}</div>
+  </div>
+  <div class="ctrls" ${P.img?'':'hidden'}>
+   <label class="toggle"><input type="checkbox" id="pAuto" ${P.auto?'checked':''}> Auto enhance (fix brightness, colour and clarity)</label>
+   ${slider('bright','Brightness',-50,50,P.bright)}${slider('contrast','Contrast',-50,50,P.contrast)}${slider('sharp','Sharpness',0,100,P.sharp)}${slider('zoom','Zoom',100,300,Math.round(P.zoom*100))}
+   <p class="hint" style="font-size:12.5px;color:var(--muted)">Drag the photo to centre the face inside the outline. The outline is not saved.</p>
+   <button class="btn sm" id="pReset">Reset adjustments</button>
+  </div>
+ </div>${navHTML()}`;
+ $('#pTake').onclick=()=>pickFile('image/*','environment',f=>loadPhoto(f));
+ $('#pUp').onclick=()=>pickFile('image/*',null,f=>loadPhoto(f));
+ if(P.img){
+  $('#pDel').onclick=()=>{S.photo=Object.assign(S.photo,{img:null,blob:null,preview:null});renderPhoto(card)};
+  $('#pAuto').onchange=e=>{P.auto=e.target.checked;P.dirty=true;drawPhoto()};
+  card.querySelectorAll('input[type=range]').forEach(r=>r.oninput=()=>{const k=r.dataset.s;P[k]=k==='zoom'?r.value/100:+r.value;r.nextElementSibling.textContent=r.value;P.dirty=true;schedule()});
+  $('#pReset').onclick=()=>{Object.assign(P,{auto:true,bright:0,contrast:0,sharp:35,zoom:1,ox:0,oy:0,dirty:true});renderPhoto(card)};
+  bindPan($('#pcv'));drawPhoto();
+ }
+ bindNav(async()=>{
+  if(!P.img){toast('Add a photo to continue');return}
+  if(P.img&&P.dirty) await exportPhoto();
+  S.step++;render();
+ });
+}
+function slider(k,l,min,max,v){return `<div class="row"><label for="s_${k}">${l}</label><input type="range" id="s_${k}" data-s="${k}" min="${min}" max="${max}" value="${v}"><span class="val">${v}</span></div>`}
+let rafId=0;function schedule(){cancelAnimationFrame(rafId);rafId=requestAnimationFrame(drawPhoto)}
+function pickFile(accept,capture,cb,multiple){
+ const inp=document.createElement('input');inp.type='file';inp.accept=accept;if(capture)inp.setAttribute('capture',capture);if(multiple)inp.multiple=true;
+ inp.onchange=()=>{if(inp.files&&inp.files.length)cb(multiple?[...inp.files]:inp.files[0])};inp.click();
+}
+function loadImage(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file);const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error('bad'));im.src=u})}
+async function loadPhoto(file){
+ try{const im=await loadImage(file);
+  // downscale big camera images once
+  const max=1800,sc=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));
+  const c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  Object.assign(S.photo,{img:c,ox:0,oy:0,zoom:1,dirty:true,blob:null,srcBlob:null});renderPhoto($('#stepCard'));
+  c.toBlob(b=>{S.photo.srcBlob=b;saveDraft()},'image/jpeg',.92);
+ }catch(e){toast('That file could not be opened as an image')}
+}
+function bindPan(cv){
+ let drag=null;
+ cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,ox:S.photo.ox,oy:S.photo.oy};cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
+ cv.addEventListener('pointermove',e=>{if(!drag)return;const r=cv.getBoundingClientRect();S.photo.ox=drag.ox+(e.clientX-drag.x)/r.width;S.photo.oy=drag.oy+(e.clientY-drag.y)/r.height;S.photo.dirty=true;schedule()});
+ const up=()=>{drag=null;cv.style.cursor='grab'};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+ cv.addEventListener('keydown',e=>{const d=.02;if(e.key==='ArrowLeft')S.photo.ox-=d;else if(e.key==='ArrowRight')S.photo.ox+=d;else if(e.key==='ArrowUp')S.photo.oy-=d;else if(e.key==='ArrowDown')S.photo.oy+=d;else return;e.preventDefault();S.photo.dirty=true;schedule()});
+ cv.tabIndex=0;
+}
+function composePhoto(out){
+ const P=S.photo,src=P.img,W=out.width,H=out.height,ctx=out.getContext('2d');
+ const base=Math.max(W/src.width,H/src.height)*P.zoom;const dw=src.width*base,dh=src.height*base;
+ const maxX=(dw-W)/2,maxY=(dh-H)/2;
+ let px=P.ox*W,py=P.oy*H;px=Math.max(-maxX,Math.min(maxX,px));py=Math.max(-maxY,Math.min(maxY,py));P.ox=px/W;P.oy=py/H;
+ ctx.imageSmoothingQuality='high';ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+ ctx.drawImage(src,(W-dw)/2+px,(H-dh)/2+py,dw,dh);
+ const id=ctx.getImageData(0,0,W,H);enhance(id.data,W,H);ctx.putImageData(id,0,0);
+}
+function enhance(d,W,H){
+ const P=S.photo,n=W*H;
+ // auto levels + gamma + saturation
+ let lut=[new Uint8ClampedArray(256),new Uint8ClampedArray(256),new Uint8ClampedArray(256)];
+ if(P.auto){
+  const hist=[new Uint32Array(256),new Uint32Array(256),new Uint32Array(256)];
+  for(let i=0;i<d.length;i+=16){hist[0][d[i]]++;hist[1][d[i+1]]++;hist[2][d[i+2]]++}
+  const cnt=Math.ceil(n/4);
+  const lim=(h,p)=>{let a=0,t=cnt*p;for(let i=0;i<256;i++){a+=h[i];if(a>=t)return i}return 255};
+  let lo=[0,0,0],hi=[255,255,255];
+  for(let c=0;c<3;c++){lo[c]=lim(hist[c],.005);hi[c]=lim(hist[c],.995);if(hi[c]-lo[c]<40){lo[c]=Math.max(0,lo[c]-20);hi[c]=Math.min(255,hi[c]+20)}}
+  // blend per-channel stretch with a shared stretch to avoid strong colour shifts
+  const sl=Math.min(...lo),sh=Math.max(...hi);
+  for(let c=0;c<3;c++){lo[c]=Math.round(lo[c]*.6+sl*.4);hi[c]=Math.round(hi[c]*.6+sh*.4)}
+  let mean=0;for(let i=0;i<d.length;i+=16){const y=.299*(d[i]-lo[0])/(hi[0]-lo[0])+.587*(d[i+1]-lo[1])/(hi[1]-lo[1])+.114*(d[i+2]-lo[2])/(hi[2]-lo[2]);mean+=Math.min(1,Math.max(0,y))}
+  mean/=cnt;const g=Math.max(.7,Math.min(1.4,Math.log(.52)/Math.log(Math.max(.05,Math.min(.95,mean)))));
+  for(let c=0;c<3;c++)for(let v=0;v<256;v++){let x=(v-lo[c])/Math.max(1,hi[c]-lo[c]);x=Math.min(1,Math.max(0,x));lut[c][v]=Math.round(Math.pow(x,1/g)*255)}
+ } else for(let c=0;c<3;c++)for(let v=0;v<256;v++)lut[c][v]=v;
+ const br=P.bright*1.6,ct=(P.contrast+100)/100,sat=P.auto?1.08:1;
+ for(let i=0;i<d.length;i+=4){
+  let r=lut[0][d[i]],g2=lut[1][d[i+1]],b=lut[2][d[i+2]];
+  r=(r-128)*ct+128+br;g2=(g2-128)*ct+128+br;b=(b-128)*ct+128+br;
+  if(sat!==1){const y=.299*r+.587*g2+.114*b;r=y+(r-y)*sat;g2=y+(g2-y)*sat;b=y+(b-y)*sat}
+  d[i]=r;d[i+1]=g2;d[i+2]=b;
+ }
+ // unsharp mask (3x3 box blur)
+ const amt=P.sharp/100*1.2;if(amt<=0)return;
+ const src=new Uint8ClampedArray(d);const row=W*4;
+ for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){const o=y*row+x*4;
+  for(let c=0;c<3;c++){const k=o+c;
+   const bl=(src[k-row-4]+src[k-row]+src[k-row+4]+src[k-4]+src[k]+src[k+4]+src[k+row-4]+src[k+row]+src[k+row+4])/9;
+   d[k]=src[k]+(src[k]-bl)*amt;}}
+}
+function drawPhoto(){const cv=$('#pcv');if(!cv||!S.photo.img)return;composePhoto(cv);saveDraft()}
+function exportPhoto(){return new Promise(res=>{const c=document.createElement('canvas');c.width=600;c.height=800;composePhoto(c);c.toBlob(b=>{S.photo.blob=b;S.photo.dirty=false;S.photo.preview=c.toDataURL('image/jpeg',.85);res()},'image/jpeg',.92)})}
+
+/* ---------------- documents ---------------- */
+async function prepFile(file){
+ if(file.type==='application/pdf'){if(file.size>19.5e6)throw new Error('PDF is larger than 20 MB');return {blob:file,name:file.name,type:'application/pdf',thumb:null}}
+ if(!file.type.startsWith('image/'))throw new Error('Use a photo (JPG, PNG) or a PDF');
+ const im=await loadImage(file);const max=2200,sc=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));
+ const c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*sc);c.height=Math.round(im.naturalHeight*sc);
+ const x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);
+ // light document enhancement: stretch contrast
+ const id=x.getImageData(0,0,c.width,c.height),d=id.data;let lo=255,hi=0;
+ const h=new Uint32Array(256);for(let i=0;i<d.length;i+=40){h[(d[i]*.299+d[i+1]*.587+d[i+2]*.114)|0]++}
+ let tot=0;for(const v of h)tot+=v;let a=0;for(let i=0;i<256;i++){a+=h[i];if(a>tot*.01){lo=i;break}}a=0;for(let i=255;i>=0;i--){a+=h[i];if(a>tot*.01){hi=i;break}}
+ if(hi-lo>40&&(lo>12||hi<240)){const s=255/(hi-lo);for(let i=0;i<d.length;i+=4){d[i]=(d[i]-lo)*s;d[i+1]=(d[i+1]-lo)*s;d[i+2]=(d[i+2]-lo)*s}x.putImageData(id,0,0)}
+ const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.85));
+ const t=document.createElement('canvas');const ts=96/Math.max(c.width,c.height);t.width=c.width*ts;t.height=c.height*ts;t.getContext('2d').drawImage(c,0,0,t.width,t.height);
+ return {blob,name:file.name.replace(/\.[^.]+$/,'')+'.jpg',type:'image/jpeg',thumb:t.toDataURL('image/jpeg',.7)};
+}
+function renderDocs(card){
+ const L=docList();
+ card.innerHTML=`<h1>Documents</h1><p class="lead">Type the document name, then take a photo or upload the file. Add as many documents as you need. Documents are optional.</p>
+ <div class="f"><label class="l" for="docName">Document name</label>
+ <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="docName" list="docSugg" placeholder="For example: Aadhaar card, PAN card, Police verification" style="flex:1;min-width:220px;width:auto" autocomplete="off"><button class="btn sm" id="docCam">Camera</button><button class="btn sm primary" id="docUp">Upload</button></div>
+ <datalist id="docSugg">${DOC_SUGG.map(s=>`<option value="${esc(s)}">`).join('')}</datalist>
+ <div class="hint">Photo (JPG, PNG) or PDF, up to 20 MB each. Photos are brightened for readability and compressed automatically.</div></div>
+ <div class="docs" style="margin-top:16px">${L.length?L.map(d=>{const fs=S.docs[d.id]||[];return `<div class="doc ok" data-d="${d.id}"><div class="ic">${fs[0]&&fs[0].thumb?`<img src="${fs[0].thumb}" alt="">`:ICONS.file}</div>
+  <div class="t"><b>${esc(d.label)}</b><small>${esc(fs.map(f=>f.name).join(', '))}</small></div>
+  <button class="btn sm" data-more="${d.id}">Add page</button><button class="btn sm" data-rm="${d.id}">Remove</button></div>`}).join(''):'<p class="note" style="margin:0">No documents added yet. You can continue without them.</p>'}</div>
+ ${navHTML()}`;
+ const nameEl=$('#docName');
+ const needName=()=>{if(nameEl.value.trim())return true;toast('Enter the document name first');nameEl.focus();return false};
+ const addNew=async files=>{
+  const label=nameEl.value.trim();const id='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  toast('Processing…');
+  try{const out=[];for(const f of files)out.push(await prepFile(f));S.docList=[...docList(),{id,label}];S.docs[id]=out;saveDraft()}catch(e){toast(e.message||'Could not read that file')}
+  renderDocs(card);
+ };
+ $('#docUp').onclick=()=>{if(needName())pickFile('image/*,application/pdf',null,fs=>addNew(fs),true)};
+ $('#docCam').onclick=()=>{if(needName())pickFile('image/*','environment',f=>addNew([f]))};
+ nameEl.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('#docUp').click()}};
+ card.querySelectorAll('[data-more]').forEach(b=>b.onclick=()=>pickFile('image/*,application/pdf',null,async fs=>{
+  try{const out=[];for(const f of fs)out.push(await prepFile(f));const id=b.dataset.more;S.docs[id]=[...(S.docs[id]||[]),...out];saveDraft()}catch(e){toast(e.message||'Could not read that file')}
+  renderDocs(card)},true));
+ card.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{const id=b.dataset.rm;delete S.docs[id];S.docList=docList().filter(x=>x.id!==id);saveDraft();renderDocs(card)});
+ bindNav(()=>{S.step++;render()});
+}
+
+/* ---------------- terms & signature ---------------- */
+function renderTerms(card){
+ if(!S.signName)S.signName=S.v.full_name||'';
+ const T=isVendor()?TERMS_VENDOR:TERMS_STAFF;
+ const who=isVendor()?(S.v.business_name||'the vendor'):(S.v.full_name||'the employee');
+ card.innerHTML=`<h1>Terms and conditions</h1><p class="lead">Read these out to ${esc(who)} in a language they understand, then sign below.</p>
+ <div class="terms" tabindex="0" aria-label="Terms and conditions"><h3>${isVendor()?'KEPR vendor terms':'KEPR employee terms'} (version 1.0)</h3><ol>${T.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div>
+ <label class="check"><input type="checkbox" id="tAgree" ${S.agree?'checked':''}><span>I have read and understood the terms above and agree to them.</span></label>
+ <label class="check"><input type="checkbox" id="tConsent" ${S.consent?'checked':''}><span>I consent to verification and to KEPR storing and using my information and documents as described above.</span></label>
+ <h2>Signature</h2>
+ <div class="grid"><div class="f"><label class="l" for="tName">Full name as signature <span class="req">*</span></label><input type="text" id="tName" value="${esc(S.signName||S.v.full_name||'')}" autocomplete="off"></div>
+ <div class="f"><label class="l">Date</label><input type="text" value="${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}" disabled></div></div>
+ <div class="f" style="margin-top:14px"><span style="display:block;font-weight:600;font-size:13.5px;margin-bottom:6px">Draw signature <span class="req">*</span></span>
+ <div class="sig"><canvas id="sigc" aria-label="Signature pad"></canvas><span class="ph-t" id="sigph" ${S.sigDrawn?'hidden':''}>Sign here with finger or mouse</span></div>
+ <div class="btnrow"><button class="btn sm" id="sigClear">Clear signature</button></div></div>
+ ${navHTML()}`;
+ $('#tAgree').onchange=e=>{S.agree=e.target.checked;saveDraft()};$('#tConsent').onchange=e=>{S.consent=e.target.checked;saveDraft()};$('#tName').oninput=e=>{S.signName=e.target.value;saveDraft()};
+ const cv=$('#sigc'),box=cv.parentElement;const dpr=Math.max(1,window.devicePixelRatio||1);
+ cv.width=box.clientWidth*dpr;cv.height=box.clientHeight*dpr;const x=cv.getContext('2d');x.scale(dpr,dpr);x.lineWidth=2.4;x.lineCap='round';x.lineJoin='round';x.strokeStyle='#1d1a1a';
+ if(S.sigImg){const im=new Image();im.onload=()=>x.drawImage(im,0,0,box.clientWidth,box.clientHeight);im.src=S.sigImg}
+ let d=false,last=null;
+ const pt=e=>{const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
+ cv.onpointerdown=e=>{d=true;last=pt(e);cv.setPointerCapture(e.pointerId);$('#sigph').hidden=true};
+ cv.onpointermove=e=>{if(!d)return;const p=pt(e);x.beginPath();x.moveTo(last[0],last[1]);x.lineTo(p[0],p[1]);x.stroke();last=p;S.sigDrawn=true};
+ cv.onpointerup=cv.onpointercancel=()=>{if(d){d=false;S.sigImg=cv.toDataURL('image/png');saveDraft()}};
+ $('#sigClear').onclick=()=>{x.clearRect(0,0,cv.width,cv.height);S.sigDrawn=false;S.sigImg=null;saveDraft();$('#sigph').hidden=false};
+ bindNav(async()=>{
+  if(!S.agree||!S.consent){toast('Tick both boxes to accept the terms');return}
+  if(!S.signName.trim()){toast('Type the full name as signature');$('#tName').focus();return}
+  if(!S.sigDrawn){toast('Draw the signature');return}
+  S.sigBlob=await new Promise(r=>cv.toBlob(r,'image/png'));S.step++;render();
+ });
+}
+
+/* ---------------- review & submit ---------------- */
+function allFieldsForRole(){
+ const defs=[formDef('personal'),formDef('work'),formDef('roleinfo')].filter(Boolean);
+ return defs.map(d=>({title:d.title,fields:d.sections.flatMap(s=>s.fields).filter(f=>fieldVisible(f)&&f.id!=='bank_acct2'&&f.type!=='check')}));
+}
+function fmt(f,v){
+ if(v==null||v===''||(Array.isArray(v)&&!v.length))return '—';
+ if(Array.isArray(v))return v.join(', ');
+ if(f.id==='aadhaar')return 'XXXX XXXX '+String(v).slice(-4);
+ if(f.id==='bank_acct')return 'XXXX'+String(v).slice(-4);
+ if(f.type==='date')return new Date(v).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+ if(f.id==='salary')return '₹'+Number(v).toLocaleString('en-IN');
+ return v;
+}
+function renderReview(card){
+ const st=activeSteps();const secs=allFieldsForRole();const L=docList(S.role);
+ const jump=id=>st.findIndex(s=>s.id===id);
+ card.innerHTML=`<h1>Review and submit</h1><p class="lead">Check everything once. Use Edit to change a section.</p>
+ <div class="rv"><div>${S.photo.preview?`<img class="p" src="${S.photo.preview}" alt="Enhanced profile photo">`:'<div class="stage"><div class="empty">No photo</div></div>'}
+  <p style="margin:10px 0 0;font-weight:700">${esc(S.v.full_name||'')}</p><p style="margin:0;color:var(--muted);font-size:14px">${esc(S.role==='other'?(S.v.other_role||'Other staff'):roleName(S.role))}</p></div>
+ <div>${secs.map((s,i)=>`<div class="rvsec"><h3>${esc(s.title)}<button data-j="${['personal','work','roleinfo'][i]}">Edit</button></h3><dl class="kv">${s.fields.map(f=>`<dt>${esc(f.label)}</dt><dd>${esc(fmt(f,S.v[f.id]))}</dd>`).join('')}</dl></div>`).join('')}
+ <div class="rvsec"><h3>Documents<button data-j="docs">Edit</button></h3><dl class="kv">${L.filter(d=>(S.docs[d.id]||[]).length||d.req).map(d=>`<dt>${esc(d.label)}</dt><dd>${(S.docs[d.id]||[]).length?esc((S.docs[d.id]).length+' file'+((S.docs[d.id]).length>1?'s':'')):'—'}</dd>`).join('')}</dl></div>
+ <div class="rvsec"><h3>Signature<button data-j="terms">Edit</button></h3>${S.sigImg?`<img src="${S.sigImg}" alt="Signature" style="max-width:260px;background:#fff;border:1px solid var(--line);border-radius:10px">`:''}<p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">Signed by ${esc(S.signName)} · terms accepted</p></div>
+ </div></div>
+ ${(!DB||!ASSETS)?'<p class="note warn">Saving to KEPR records isn\'t available in this view. You can still download a copy of this form.</p>':''}
+ <div class="progress" id="prog"><div class="bar"><i id="progBar"></i></div><p id="progTxt"></p></div>
+ <div class="nav"><button class="btn" id="back">Back</button><div style="display:flex;gap:8px;flex-wrap:wrap">${DL?'<button class="btn" id="dlCopy">Download copy</button>':''}${DB&&ASSETS?'<button class="btn primary" id="submit">Submit onboarding</button>':''}</div></div>`;
+ card.querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const j=jump(b.dataset.j);if(j>=0){S.step=j;render()}});
+ $('#back').onclick=()=>{S.step--;render()};
+ if($('#dlCopy'))$('#dlCopy').onclick=downloadCopy;
+ if($('#submit'))$('#submit').onclick=submit;
+}
+function newId(){const d=new Date();const p=n=>String(n).padStart(2,'0');return `KEPR-${String(d.getFullYear()).slice(2)}${p(d.getMonth()+1)}${p(d.getDate())}-${Math.random().toString(36).slice(2,6).toUpperCase()}`}
+async function submit(){
+ const btn=$('#submit');btn.disabled=true;$('#back').disabled=true;
+ const prog=$('#prog');prog.style.display='block';
+ const L=docList(S.role);const jobs=[];
+ if(S.photo.blob)jobs.push({k:'photo',blob:S.photo.blob,label:'Photo'});
+ if(S.sigBlob)jobs.push({k:'signature',blob:S.sigBlob,label:'Signature'});
+ L.forEach(d=>(S.docs[d.id]||[]).forEach((f,i)=>jobs.push({k:'doc',slot:d.id,label:d.label,name:f.name,type:f.type,blob:f.blob})));
+ const rec={recordId:newId(),role:S.role,roleName:S.role==='other'?(S.v.other_role||'Other staff'):roleName(S.role),values:Object.assign({},S.v),docs:[],photo:null,signature:null,
+  terms:{version:'1.0',type:isVendor()?'vendor':'staff',accepted:true,consent:true,signedName:S.signName.trim(),signedAt:new Date().toISOString()},
+  createdAt:new Date().toISOString(),createdBy:UID};
+ delete rec.values.bank_acct2;
+ try{
+  for(let i=0;i<jobs.length;i++){
+   const j=jobs[i];$('#progTxt').textContent=`Uploading ${j.label}${j.name?' – '+j.name:''} (${i+1} of ${jobs.length})`;
+   const r=await uploadWithRetry(j.blob);
+   if(j.k==='photo')rec.photo={id:r.id};else if(j.k==='signature')rec.signature={id:r.id};else rec.docs.push({slot:j.slot,label:j.label,name:j.name,type:j.type,id:r.id});
+   $('#progBar').style.width=((i+1)/(jobs.length+1)*100)+'%';
+  }
+  $('#progTxt').textContent='Saving record…';
+  await DB.doc(`onboarding/${UID}`).set({uid:UID,updatedAt:new Date().toISOString()});
+  await DB.doc(`onboarding/${UID}/records/${rec.recordId}`).set(rec);
+  $('#progBar').style.width='100%';
+  S.submitted=Object.assign({_path:`onboarding/${UID}/records/${rec.recordId}`},rec);clearDraft();render();
+ }catch(e){
+  console.error(e);btn.disabled=false;$('#back').disabled=false;
+  const m=e&&e.code==='quota_exceeded'?'Storage is full. Ask the KEPR admin to free up space.':e&&e.code==='not_granted'?'Saving isn\'t allowed for your access level. Ask the owner to make you a Contributor.':'Upload failed. Check the connection and submit again.';
+  $('#progTxt').textContent=m;toast(m);
+ }
+}
+async function uploadWithRetry(blob){try{return await ASSETS.upload(blob)}catch(e){if(e&&e.code&&/unavailable|rate/.test(e.code)){await new Promise(r=>setTimeout(r,1200+Math.random()*800));return await ASSETS.upload(blob)}throw e}}
+function renderDone(){
+ renderRailDone();
+ const r=S.submitted;const vendor=r.role==='vendor';const L=vendor?'empanelment letter':'offer letter';
+ $('#stepCard').innerHTML=`<div class="okbar"><span class="tick">${ICONS.tick}</span><div><b>Onboarding submitted</b><br><span>${esc(r.values.full_name||r.values.business_name||'')} saved as ${esc(r.roleName)} \u00b7 Record <code>${esc(r.recordId)}</code></span></div></div>
+ <h1>${vendor?'Empanelment letter':'Offer letter'}</h1><p class="lead">Set the terms and issue the ${L}. It is saved to this person's record and downloaded as a PDF.</p>
+ <div id="olHost"></div>
+ <div class="nav"><button class="btn" id="seeRec">View records</button><button class="btn" id="again">Onboard another person</button></div>`;
+ letterEditor($('#olHost'),r);
+ $('#again').onclick=reset;$('#seeRec').onclick=()=>showTab('rec');
+}
+function renderRailDone(){const st=activeSteps();$('#rail').innerHTML=st.map((s,i)=>`<li class="done"><span class="n">✓</span>${esc(s.name)}</li>`).join('')+`<li class="cur"><span class="n">${st.length+1}</span>${isVendor()?'Empanelment letter':'Offer letter'}</li>`;$('#mbar').style.width='100%';$('#mtxt').textContent=(isVendor()?'Empanelment':'Offer')+' letter'}
+function reset(){Object.assign(S,{step:0,role:'',v:{},photo:{img:null,auto:true,bright:0,contrast:0,sharp:35,zoom:1,ox:0,oy:0,blob:null,dirty:true},docs:{},docList:[],sigBlob:null,sigImg:null,sigDrawn:false,agree:false,consent:false,signName:'',submitted:null});clearDraft();render()}
+async function blobToDataURL(b){return await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(b)})}
+async function downloadCopy(){
+ if(!DL)return;
+ const secs=allFieldsForRole();const L=docList(S.role);
+ const imgs=[];for(const d of L)for(const f of (S.docs[d.id]||[]))if(f.type.startsWith('image/'))imgs.push({label:d.label,src:await blobToDataURL(f.blob)});
+ const html=`<!doctype html><html><head><meta charset="utf-8"><title>KEPR onboarding – ${esc(S.v.full_name||'')}</title><style>body{font-family:Arial,sans-serif;color:#262121;max-width:820px;margin:24px auto;padding:0 16px}h1{color:#ee6a4f}table{border-collapse:collapse;width:100%;margin-bottom:18px}td{border:1px solid #ddd;padding:6px 8px;font-size:13px}td:first-child{color:#666;width:38%}img.d{max-width:100%;border:1px solid #ddd;margin:6px 0 16px}</style></head><body>
+ <h1>KEPR onboarding form</h1><p><b>${esc(roleName(S.role))}</b> · ${new Date().toLocaleString('en-IN')}</p>
+ ${S.photo.preview?`<img src="${S.photo.preview}" style="width:150px;border-radius:8px">`:''}
+ ${secs.map(s=>`<h3>${esc(s.title)}</h3><table>${s.fields.map(f=>`<tr><td>${esc(f.label)}</td><td>${esc(fmt(f,S.v[f.id]))}</td></tr>`).join('')}</table>`).join('')}
+ <h3>Documents</h3><ul>${L.map(d=>`<li>${esc(d.label)}: ${(S.docs[d.id]||[]).map(f=>esc(f.name)).join(', ')||'—'}</li>`).join('')}</ul>
+ <h3>Terms</h3><ol>${(isVendor()?TERMS_VENDOR:TERMS_STAFF).map(t=>`<li>${esc(t)}</li>`).join('')}</ol>
+ <p>Accepted and signed by <b>${esc(S.signName)}</b></p>${S.sigImg?`<img src="${S.sigImg}" style="max-width:260px;border:1px solid #ddd">`:''}
+ ${imgs.map(i=>`<h4>${esc(i.label)}</h4><img class="d" src="${i.src}">`).join('')}</body></html>`;
+ try{await DL.save({filename:`KEPR_onboarding_${(S.v.full_name||'form').replace(/\s+/g,'_')}.html`,data:new Blob([html],{type:'text/html'})});}catch(e){if(e&&e.code!=='cancelled')toast('Download was not completed')}
+}
+
+/* ---------------- offer / empanelment letter ---------------- */
+const fmtD=d=>d?new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'-';
+const latin=s=>String(s==null?'':s).replace(/[\u2013\u2014]/g,'-').replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\u20B9/g,'Rs. ').replace(/\u00D7/g,'x').replace(/[^\x00-\xFF]/g,'');
+const OL_DEF=r=>({date:new Date().toISOString().slice(0,10),probation:3,notice:30,hours:r.role==='security'?12:8,weeklyOff:'No weekly off. 1 day of leave per month, with prior information',salaryDay:10,uniformCharge:1000,termMonths:6,exitPenalty:20000,reporting:'Site supervisor',signatory:'',designation:'Authorised signatory'});
+const ord=n=>{n=+n||0;const s=(n%100>10&&n%100<14)?'th':(['th','st','nd','rd'][n%10]||'th');return n+s};
+const rs=n=>'Rs. '+Number(n||0).toLocaleString('en-IN');
+function letterModel(rec,o){
+ const V=rec.values||{},vendor=rec.role==='vendor';
+ const ref=`KEPR/${vendor?'EL':'OL'}/${String(rec.recordId).replace(/^KEPR-/,'')}`;
+ const to=(vendor?[V.business_name,'Attn: '+(V.full_name||'')+(V.designation?', '+V.designation:''),V.b_address,[V.city,V.pincode].filter(Boolean).join(' - '),V.phone?'Phone: '+V.phone:'']:[V.full_name,V.cur_address,[V.city,V.pincode].filter(Boolean).join(' - '),V.phone?'Phone: '+V.phone:'']).filter(Boolean);
+ if(!vendor){
+  const pay=V.pay_mode==='Bank transfer'?`Bank transfer to account ending ${String(V.bank_acct||'').slice(-4)}`:V.pay_mode==='UPI'?`UPI (${V.upi||''})`:'Cash, against signature in the salary register';
+  return {vendor,ref,date:o.date,to,subject:'Subject: Offer of employment - '+rec.roleName,greeting:`Dear ${V.full_name||''},`,
+   intro:`We are pleased to offer you the position of ${rec.roleName} with KEPR Care & Services. This offer follows your onboarding on ${fmtD(rec.createdAt)} (record ${rec.recordId}) and is made on the terms below.`,
+   rows:[['Position',rec.roleName],['Work location',V.site],['Date of joining',fmtD(V.joining_date)],['Shift and hours',`${V.shift||'-'} shift, ${o.hours} hours per day`],['Weekly off and leave',o.weeklyOff],['Monthly salary (gross)','Rs. '+Number(V.salary||0).toLocaleString('en-IN')+' per month'],['Salary date',`By the ${ord(o.salaryDay)} of the following month`],['Salary payment',pay],['Uniform charge',`${rs(o.uniformCharge)}, deducted from the first month's salary`],['Agreement period',`${o.termMonths} months from the date of joining`],['Leaving before agreement ends',`Penalty of ${rs(o.exitPenalty)}`],['Reports to',o.reporting],['Probation',`${o.probation} months`],['Notice period',`${o.notice} days from either side after probation`]],
+   termsTitle:'Terms of employment',
+   terms:[`Salary is paid monthly, by the ${ord(o.salaryDay)} of the following month, after statutory deductions (PF, ESI and professional tax) as applicable.`,`A uniform charge of ${rs(o.uniformCharge)} is deducted from your first month's salary.`,`This is a ${o.termMonths}-month agreement from your date of joining. If you leave before completing ${o.termMonths} months, a penalty of ${rs(o.exitPenalty)} applies.`,`During probation, either party may end the employment with 7 days' notice. Employment is confirmed in writing after probation, subject to performance and verification.`,`Weekly off and leave: ${o.weeklyOff}. Absence without prior information is treated as loss of pay.`,`You will follow the KEPR company policies in Annexure A and the terms you accepted at onboarding.`,`This offer is subject to satisfactory verification of your documents and police verification. Any false information makes this offer void.`,`KEPR may transfer you to another site in Bengaluru, with prior notice, based on operational needs.`,`Uniform, ID card and equipment issued to you remain KEPR property and must be returned when you leave.`],
+   closing:`Please sign this letter and the policy acknowledgement in Annexure A as your acceptance, and report to ${V.site||'your assigned site'} on ${fmtD(V.joining_date)}. We welcome you to KEPR.`,
+   signL:['For KEPR Care & Services',o.signatory||'Name:',o.designation||''],signR:['Accepted by',V.full_name||'Name:','Date:'],
+   annex:{title:'Annexure A - KEPR Company Policies',intro:'These policies form part of your terms of employment. Read them carefully; your supervisor will explain them in a language you understand.',sections:POLICIES_STAFF,ack:`I, ${V.full_name||'the employee'}, have read and understood the KEPR company policies above, and agree to follow them.`}};
+ }
+ return {vendor,ref,date:o.date,to,subject:'Subject: Letter of empanelment as a service vendor',greeting:`Dear ${V.full_name||'Sir / Madam'},`,
+  intro:`We are pleased to empanel ${V.business_name||''} as a service vendor with KEPR Care & Services, following your registration on ${fmtD(rec.createdAt)} (record ${rec.recordId}), on the terms below.`,
+  rows:[['Vendor',V.business_name],['Services',(V.services||[]).join(', ')],['Sites',V.site],['Start date',fmtD(V.start_date)],['Payment terms',V.pay_terms],['GSTIN',V.gstin||'Not registered'],['PF / ESI registered',V.pf_esi],['Insurance',V.insurance],['KEPR uniform and ID',`${V.uniform_type||'KEPR uniform or badges'} and KEPR ID card for all staff on site`],['Payment condition',`Only after the monthly attendance sheet and attendance photos (${V.attendance_channel||'WhatsApp or KEPR app'}) are received`],['Rates',V.rates||'As per quotation / purchase order']],
+  termsTitle:'Terms of engagement',terms:TERMS_VENDOR.slice(0,-1),
+  closing:'Please sign this letter and the policy acknowledgement in Annexure A as your acceptance of the empanelment.',
+  signL:['For KEPR Care & Services',o.signatory||'Name:',o.designation||''],signR:['Accepted for '+(V.business_name||'the vendor'),V.full_name||'Name:','Date:'],
+  annex:{title:'Annexure A - KEPR Vendor Policies',intro:'These policies form part of the terms of empanelment and apply to the vendor and all staff it deploys on KEPR client sites.',sections:POLICIES_VENDOR,ack:`On behalf of ${V.business_name||'the vendor'}, I have read and understood the KEPR vendor policies above, and agree to follow them.`}};
+}
+async function blobFor(id){const b=await LOCAL.getBlob(id);if(!b)throw new Error('missing');return b}
+async function imgDataURL(blob,max){const im=await loadImage(blob);const sc=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.naturalWidth*sc));c.height=Math.max(1,Math.round(im.naturalHeight*sc));const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);return {src:c.toDataURL('image/jpeg',.82),w:c.width,h:c.height}}
+let _pdfjs=null;
+function loadScript(u){return new Promise((res,rej)=>{const t=document.createElement('script');t.src=u;t.onload=res;t.onerror=()=>rej(new Error('script'));document.head.appendChild(t)})}
+function pdfjs(){if(!_pdfjs)_pdfjs=(async()=>{const B='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';await loadScript(B+'pdf.min.js');await loadScript(B+'pdf.worker.min.js');window.pdfjsLib.GlobalWorkerOptions.workerSrc=B+'pdf.worker.min.js';return window.pdfjsLib})().catch(e=>{_pdfjs=null;throw e});return _pdfjs}
+async function pdfPages(blob,maxPages){const lib=await pdfjs();const d=await lib.getDocument({data:new Uint8Array(await blob.arrayBuffer()),isEvalSupported:false}).promise;const out=[];
+ for(let i=1;i<=Math.min(d.numPages,maxPages);i++){const pg=await d.getPage(i);const v0=pg.getViewport({scale:1});const sc=Math.min(2.2,1500/Math.max(v0.width,v0.height));const vp=pg.getViewport({scale:sc});const c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);await pg.render({canvasContext:x,viewport:vp}).promise;out.push({src:c.toDataURL('image/jpeg',.82),w:c.width,h:c.height})}
+ return {pages:out,total:d.numPages}}
+async function letterAssets(rec){
+ if(rec._assets)return rec._assets;
+ if(rec._assetsP)return rec._assetsP;
+ rec._assetsP=(async()=>{
+  const A={photo:null,docs:[]};const local=rec===S.submitted;
+  try{if(local&&S.photo.blob)A.photo=await imgDataURL(S.photo.blob,600);else if(rec.photo&&rec.photo.id)A.photo=await imgDataURL(await blobFor(rec.photo.id),600)}catch(e){}
+  for(const d of (rec.docs||[])){const item={label:d.label,name:d.name,pages:[],note:''};
+   try{let blob=null;
+    if(local){const f=(S.docs[d.slot]||[]).find(x=>x.name===d.name&&!x._used);if(f){blob=f.blob;f._used=1}}
+    if(!blob&&d.id)blob=await blobFor(d.id);
+    if(!blob)throw new Error('none');
+    if((d.type||blob.type||'').startsWith('image/'))item.pages=[await imgDataURL(blob,1500)];
+    else{const r=await pdfPages(blob,6);item.pages=r.pages;if(r.total>6)item.note=`First 6 of ${r.total} pages shown.`}
+   }catch(e){item.note='This document could not be added here. Print it from the record.'}
+   A.docs.push(item)}
+  if(local)Object.values(S.docs).forEach(a=>a.forEach(f=>delete f._used));
+  rec._assets=A;return A})();
+ return rec._assetsP;
+}
+function buildLetter(rec,o,A){
+ const m=letterModel(rec,o);const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const W=210,M=18;
+ const CO=[238,106,79],DK=[38,33,33],MU=[110,104,102],LN=[236,226,222];let y=0,page=1;
+ const head=()=>{doc.setFillColor(...CO);doc.rect(0,0,W,4,'F');try{doc.addImage(document.querySelector('.top img').src,'PNG',M,10,14,14)}catch(e){}
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(...DK);doc.text('KEPR Care & Services',M+18,16.5);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...MU);doc.text("It's in good hands",M+18,21.5);
+  doc.text('Varthur, Bengaluru, Karnataka',W-M,13,{align:'right'});doc.text('+91 97396 98991  |  team@kepr.in',W-M,17.5,{align:'right'});doc.text('kepr.in',W-M,22,{align:'right'});
+  doc.setDrawColor(...LN);doc.setLineWidth(.3);doc.line(M,28,W-M,28);y=37};
+ const foot=()=>{doc.setDrawColor(...LN);doc.line(M,284,W-M,284);doc.setFontSize(8);doc.setTextColor(...MU);doc.setFont('helvetica','normal');doc.text(`${m.ref}  |  KEPR Care & Services  |  kepr.in`,M,289);doc.text('Page '+page,W-M,289,{align:'right'})};
+ const need=h=>{if(y+h>281){foot();doc.addPage();page++;head()}};
+ const P=(t,o2)=>{o2=o2||{};doc.setFont('helvetica',o2.bold?'bold':'normal');doc.setFontSize(o2.size||10);doc.setTextColor(...DK);const ls=doc.splitTextToSize(latin(t),W-2*M);ls.forEach(l=>{need(5);doc.text(l,M,y);y+=4.5});y+=o2.gap==null?2:o2.gap};
+ head();
+ doc.setFontSize(9.5);doc.setTextColor(...MU);doc.text('Ref: '+m.ref,M,y);doc.text('Date: '+fmtD(m.date),W-M,y,{align:'right'});y+=8;
+ const y0=y;let ph=0;if(A&&A.photo){const pw=27;ph=pw*A.photo.h/A.photo.w;try{doc.addImage(A.photo.src,'JPEG',W-M-pw,y0-4,pw,ph);doc.setDrawColor(...LN);doc.rect(W-M-pw,y0-4,pw,ph)}catch(e){ph=0}}
+ doc.setTextColor(...DK);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.text('To',M,y);y+=5.2;doc.setFont('helvetica','normal');doc.setFontSize(10);
+ m.to.forEach(l=>doc.splitTextToSize(latin(l),110).forEach(t=>{doc.text(t,M,y);y+=4.6}));y+=4;if(ph)y=Math.max(y,y0-4+ph+6);
+ P(m.subject,{bold:1,size:11,gap:4});P(m.greeting);P(m.intro,{gap:4});
+ const cw=58;m.rows.forEach((r,i)=>{doc.setFontSize(9.5);const vl=doc.splitTextToSize(latin(r[1]||'-'),W-2*M-cw-6);const h=Math.max(5.8,vl.length*4.2+1.6);need(h);
+  if(i%2===0){doc.setFillColor(255,246,242);doc.rect(M,y-4.1,W-2*M,h,'F')}
+  doc.setFont('helvetica','bold');doc.setTextColor(...MU);doc.text(latin(r[0]),M+3,y);doc.setFont('helvetica','normal');doc.setTextColor(...DK);vl.forEach((l,k)=>doc.text(l,M+cw,y+k*4.2));y+=h});y+=3.5;
+ P(m.termsTitle,{bold:1,size:10.5,gap:3});
+ m.terms.forEach((t,i)=>{doc.setFont('helvetica','normal');doc.setFontSize(9.8);const ls=doc.splitTextToSize(latin(t),W-2*M-7);need(ls.length*4.3+1);doc.setTextColor(...CO);doc.setFont('helvetica','bold');doc.text(String(i+1)+'.',M,y);doc.setTextColor(...DK);doc.setFont('helvetica','normal');ls.forEach((l,k)=>doc.text(l,M+7,y+k*4.3));y+=ls.length*4.3+1.4});
+ y+=2;P(m.closing,{gap:4});
+ need(30);y+=4;const cx=W/2+6;
+ doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DK);doc.text(latin(m.signL[0]),M,y);doc.text(latin(m.signR[0]),cx,y);
+ y+=11;doc.setDrawColor(...MU);doc.line(M,y,M+70,y);doc.line(cx,y,cx+70,y);y+=5;
+ doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.text(latin(m.signL[1]),M,y);doc.text(latin(m.signR[1]),cx,y);y+=4.8;
+ doc.setTextColor(...MU);doc.text(latin(m.signL[2]),M,y);doc.text(latin(m.signR[2]),cx,y);
+ if(m.annex){foot();doc.addPage();page++;head();
+  P(m.annex.title,{bold:1,size:12.5,gap:2});doc.setTextColor(...MU);P(m.annex.intro,{size:9.5,gap:4});
+  m.annex.sections.forEach((sec,i)=>{need(12);doc.setFont('helvetica','bold');doc.setFontSize(10.3);doc.setTextColor(...CO);doc.text(`${i+1}. `+latin(sec[0]),M,y);y+=5;
+   sec[1].forEach(t=>{doc.setFont('helvetica','normal');doc.setFontSize(9.3);doc.setTextColor(...DK);const ls=doc.splitTextToSize(latin(t),W-2*M-6);need(ls.length*4.1+1);doc.setFillColor(...CO);doc.circle(M+2.2,y-1.2,.7,'F');ls.forEach((l,k)=>doc.text(l,M+6,y+k*4.1));y+=ls.length*4.1+1.2});y+=2.2});
+  need(40);y+=2;doc.setDrawColor(...LN);doc.line(M,y,W-M,y);y+=7;P('Acknowledgement',{bold:1,size:10.5,gap:2});P(m.annex.ack,{size:9.8,gap:4});
+  y+=11;doc.setDrawColor(...MU);doc.line(M,y,M+70,y);doc.line(cx,y,cx+70,y);y+=5;doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(...DK);doc.text('Signature',M,y);doc.text('Date',cx,y);}
+ if(A&&A.docs&&A.docs.length){foot();doc.addPage();page++;head();
+  P('Annexure B - Documents submitted',{bold:1,size:12.5,gap:2});P(`Copies of the documents submitted at onboarding (record ${rec.recordId}).`,{size:9.5,gap:4});
+  A.docs.forEach(dd=>{
+   if(!dd.pages.length){need(14);P(dd.label+(dd.name?' ('+dd.name+')':''),{bold:1,size:10.3,gap:1});P(dd.note||'Not available.',{size:9.3,gap:4});return}
+   dd.pages.forEach((pg,k)=>{let w=W-2*M,h=w*pg.h/pg.w;const maxH=pg.h>pg.w?225:110;if(h>maxH){h=maxH;w=h*pg.w/pg.h}
+    need(h+9);doc.setFont('helvetica','bold');doc.setFontSize(10.3);doc.setTextColor(...CO);doc.text(latin(dd.label+(dd.pages.length>1?` - page ${k+1}`:'')),M,y);
+    doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...MU);if(dd.name)doc.text(latin(dd.name),W-M,y,{align:'right'});y+=2.5;
+    try{doc.addImage(pg.src,'JPEG',M+(W-2*M-w)/2,y,w,h);doc.setDrawColor(...LN);doc.rect(M+(W-2*M-w)/2,y,w,h)}catch(e){}
+    y+=h+7});
+   if(dd.note){P(dd.note,{size:8.8,gap:4})}
+  });
+ }
+ foot();
+ return {blob:doc.output('blob'),ref:m.ref};
+}
+function letterHTML(m,A){
+ return `<div class="letter"><div class="lh"><img src="${document.querySelector('.top img').src}" alt=""><div class="ln"><b>KEPR Care &amp; Services</b><span>It's in good hands</span></div><div class="lr">Varthur, Bengaluru, Karnataka<br>+91 97396 98991 | team@kepr.in<br>kepr.in</div></div>
+ <div class="lmeta"><span>Ref: ${esc(m.ref)}</span><span>Date: ${esc(fmtD(m.date))}</span></div>
+ ${A&&A.photo?`<img class="lphoto" src="${A.photo.src}" alt="Photo">`:''}<p><b>To</b><br>${m.to.map(esc).join('<br>')}</p><p class="lsub">${esc(m.subject)}</p><p>${esc(m.greeting)}</p><p>${esc(m.intro)}</p>
+ <table class="ltb">${m.rows.map(r=>`<tr><th>${esc(r[0])}</th><td>${esc(r[1]||'-')}</td></tr>`).join('')}</table>
+ <p class="lsub" style="font-size:12px">${esc(m.termsTitle)}</p><ol>${m.terms.map(t=>`<li>${esc(t)}</li>`).join('')}</ol><p>${esc(m.closing)}</p>
+ <div class="lsig"><div><b>${esc(m.signL[0])}</b><i></i>${esc(m.signL[1])}<small>${esc(m.signL[2])}</small></div><div><b>${esc(m.signR[0])}</b><i></i>${esc(m.signR[1])}<small>${esc(m.signR[2])}</small></div></div></div>
+ ${m.annex?`<div class="letter annex"><p class="lsub" style="font-size:15px">${esc(m.annex.title)}</p><p style="color:#6e6866">${esc(m.annex.intro)}</p>${m.annex.sections.map((sec,i)=>`<h5>${i+1}. ${esc(sec[0])}</h5><ul>${sec[1].map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`).join('')}<div class="ack"><b>Acknowledgement</b><p>${esc(m.annex.ack)}</p><div class="lsig"><div><i></i>Signature</div><div><i></i>Date</div></div></div></div>`:''}
+ ${A&&A.docs&&A.docs.length?`<div class="letter annex"><p class="lsub" style="font-size:15px">Annexure B - Documents submitted</p>${A.docs.map(d=>`<h5>${esc(d.label)} <small style="color:#6e6866;font-weight:400">${esc(d.name||'')}</small></h5>${d.pages.map(pg=>`<img class="ldoc" src="${pg.src}" alt="${esc(d.label)}">`).join('')}${d.note?`<p style="color:#6e6866;font-size:11px">${esc(d.note)}</p>`:''}`).join('')}</div>`:''}`;
+}
+function letterEditor(host,rec,cfg){
+ cfg=cfg||{};const o=Object.assign(OL_DEF(rec),(rec.offerLetter&&rec.offerLetter.opts)||{});const vendor=rec.role==='vendor';
+ const inp=(id,k,l,t,extra)=>`<div class="f"><label class="l" for="${id}">${l}</label><input type="${t}" id="${id}" data-o="${k}" value="${esc(o[k])}" ${extra||''}></div>`;
+ host.innerHTML=`<div class="ole"><div class="olf">
+  ${inp('olDate','date','Letter date','date')}${vendor?'':inp('olProb','probation','Probation (months)','number','min="0"')+inp('olNotice','notice','Notice period (days)','number','min="0"')+inp('olHours','hours','Working hours per day','number','min="1" max="12"')+inp('olOff','weeklyOff','Weekly off and leave','text')+inp('olSalDay','salaryDay','Salary date (day of month)','number','min="1" max="31"')+inp('olUni','uniformCharge','Uniform charge (Rs.)','number','min="0"')+inp('olTerm','termMonths','Agreement period (months)','number','min="1"')+inp('olPen','exitPenalty','Penalty for leaving early (Rs.)','number','min="0"')+inp('olRep','reporting','Reports to','text')}${inp('olSig','signatory','Signed by (name)','text')}${inp('olDes','designation','Designation','text')}
+  <p class="hint" style="font-size:12.5px;color:var(--muted);margin:2px 0 12px">Other details come from the onboarding form. The letter on the right updates as you type.</p>
+  <div class="olstat" id="olStat">${rec.offerLetter?`<span class="pill ok">Issued ${esc(fmtD(rec.offerLetter.issuedAt))}</span>`:'<span class="pill pending">Not issued yet</span>'}</div>
+  <div class="btnrow"><button class="btn primary" id="olGo">${rec.offerLetter?'Re-issue letter':'Issue letter'}</button>${rec.offerLetter?'<button class="btn" id="olDl">Download PDF</button>':''}</div>
+ </div><div class="olp" id="olPrev"></div></div>`;
+ let A=rec._assets||null;const prev=()=>{const el=host.querySelector('#olPrev');if(el)el.innerHTML=letterHTML(letterModel(rec,o),A)};prev();
+ if(!A){const st=host.querySelector('#olStat');const note=document.createElement('p');note.className='hint';note.style.cssText='font-size:12.5px;color:var(--muted);margin:6px 0 0';note.textContent='Adding photo and documents to the letter…';st.appendChild(note);letterAssets(rec).then(a=>{A=a;note.remove();prev()}).catch(()=>{note.textContent='Photo and documents could not be added.'})}
+ host.querySelectorAll('[data-o]').forEach(el=>el.oninput=()=>{const k=el.dataset.o;o[k]=el.type==='number'?(+el.value||0):el.value;prev()});
+ const dl=host.querySelector('#olDl');if(dl)dl.onclick=async()=>{if(!window.jspdf){toast('The PDF tool is still loading. Try again in a moment.');return}dl.disabled=true;const AA=await letterAssets(rec).catch(()=>null);const {blob,ref}=buildLetter(rec,Object.assign({},OL_DEF(rec),rec.offerLetter.opts||{}),AA);dl.disabled=false;saveLetter(blob,ref)};
+ host.querySelector('#olGo').onclick=async()=>{
+  if(!window.jspdf){toast('The PDF tool is still loading. Try again in a moment.');return}
+  const btn=host.querySelector('#olGo');btn.disabled=true;btn.textContent='Issuing…';
+  try{
+   const AA=await letterAssets(rec).catch(()=>null);const {blob,ref}=buildLetter(rec,o,AA);const meta={ref,issuedAt:new Date().toISOString(),opts:Object.assign({},o),by:UID};
+   if(ASSETS&&DB&&rec._path){try{const up=await uploadWithRetry(blob);meta.id=up.id;await DB.doc(rec._path).update({offerLetter:meta});toast('Letter issued and saved to the record')}catch(e){toast('Letter created, but it could not be saved to the record')}}
+   else toast('Letter created');
+   rec.offerLetter=meta;await saveLetter(blob,ref);letterEditor(host,rec,cfg);if(cfg.after)cfg.after();
+  }catch(e){console.error(e);btn.disabled=false;btn.textContent='Issue letter';toast('The letter could not be created')}
+ };
+}
+async function saveLetter(blob,ref){
+ if(DL){try{await DL.save({filename:ref.replace(/\//g,'_')+'.pdf',data:blob})}catch(e){if(e&&e.code!=='cancelled')toast('Download was not completed')}}
+ else{const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=ref.replace(/\//g,'_')+'.pdf';document.body.appendChild(a);a.click();a.remove()}
+}
+/* ---------------- records ---------------- */
+let RECS=[];
+function showTab(t){
+ const map={dash:['viewDash','tabDash'],new:['viewNew','tabNew'],rec:['viewRec','tabRec'],pay:['viewPay','tabPay'],exit:['viewExit','tabExit']};
+ Object.entries(map).forEach(([k,[v,b]])=>{$('#'+v).hidden=k!==t;$('#'+b).setAttribute('aria-selected',k===t)});
+ if(t==='rec')loadRecords();if(t==='dash')loadDash();if(t==='pay')loadPay();if(t==='exit')loadExits();
+}
+async function loadRecords(){
+ const body=$('#rbody'),empty=$('#rempty');
+ if(!DB||!UID){body.innerHTML='';empty.hidden=false;empty.textContent='Records are available when you open this tool signed in to claude.ai with access to it.';return}
+ $('#recTitle').textContent=CAN_EDIT?'All records':'My submissions';
+ $('#recLead').textContent=CAN_EDIT?'Everyone onboarded through this tool. Open a record to view documents and issue the offer letter.':'People you have onboarded.';
+ empty.hidden=false;empty.textContent='Loading records…';body.innerHTML='';
+ const timer=setTimeout(()=>{if(!RECS.length)empty.textContent='Records can\'t be reached right now. Try Refresh in a moment.'},10000);
+ try{
+  let uids=[UID];
+  if(CAN_EDIT){const qs=await DB.collection('onboarding').get();uids=[...new Set(qs.docs.map(d=>d.id).concat(UID))]}
+  const all=[];
+  for(const u of uids){const qs=await DB.collection(`onboarding/${u}/records`).get();qs.docs.forEach(d=>{const x=d.data();if(x)all.push(Object.assign({_path:`onboarding/${u}/records/${d.id}`},x))})}
+  all.sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));RECS=all;clearTimeout(timer);drawRecords();
+ }catch(e){clearTimeout(timer);empty.hidden=false;empty.textContent='Records could not be loaded. Try Refresh.'}
+}
+function statusPill(s){return `<span class="pill ${s==='Verified'?'ok':s==='Rejected'?'rej':'pending'}">${esc(s||'Pending verification')}</span>`}
+function drawRecords(){
+ const q=$('#rq').value.trim().toLowerCase(),fr=$('#rrole').value,fs='';
+ const rows=RECS.filter(r=>(!fr||r.role===fr)&&(!fs||r.status===fs)&&(!q||[r.values.full_name,r.values.business_name,r.values.phone,r.values.site,r.recordId].join(' ').toLowerCase().includes(q)));
+ const empty=$('#rempty');
+ if(!RECS.length){empty.hidden=false;empty.textContent='No one onboarded yet. Use New onboarding to add the first person.';$('#rbody').innerHTML='';return}
+ if(!rows.length){empty.hidden=false;empty.textContent='No records match these filters.';$('#rbody').innerHTML='';return}
+ empty.hidden=true;
+ $('#rbody').innerHTML=rows.map((r,i)=>`<tr data-i="${RECS.indexOf(r)}" tabindex="0"><td>${r.photo?`<img class="av" src="${bu(r.photo.id)}" alt="" loading="lazy">`:'<span class="av" style="display:inline-block"></span>'}</td>
+ <td><b>${esc(r.values.business_name||r.values.full_name||'—')}</b><br><small style="color:var(--muted)">${esc(r.recordId)}</small></td><td>${esc(r.roleName)}</td><td>${esc(r.values.site||'—')}</td><td>${esc(r.values.phone||'—')}</td>
+ <td>${new Date(r.createdAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td><td>${r.offerLetter?'<span class="pill ok">Issued</span>':'<span class="pill pending">Not issued</span>'}${r.exit?' <span class="pill rej">Exited</span>':''}</td></tr>`).join('');
+ $('#rbody').querySelectorAll('tr').forEach(tr=>{const o=()=>openRecord(RECS[+tr.dataset.i]);tr.onclick=o;tr.onkeydown=e=>{if(e.key==='Enter')o()}});
+}
+function openRecord(r){
+ const defs=[]; const saveRole=S.role,saveV=S.v;S.role=r.role;S.v=r.values;const secs=allFieldsForRole();S.role=saveRole;S.v=saveV;
+ $('#dlgT').textContent=r.values.business_name||r.values.full_name||'Record';
+ $('#dlgB').innerHTML=`<div class="rv"><div>${r.photo?`<img class="p" src="${bu(r.photo.id)}" alt="Photo">`:''}<p style="margin:10px 0 4px;font-weight:700">${esc(r.roleName)}</p>
+ <p style="font-size:12.5px;color:var(--muted)">${esc(r.recordId)}<br>Submitted ${new Date(r.createdAt).toLocaleString('en-IN')}</p>
+</div>
+ <div>${secs.map(s=>`<div class="rvsec"><h3>${esc(s.title)}</h3><dl class="kv">${s.fields.map(f=>`<dt>${esc(f.label)}</dt><dd>${esc(CAN_EDIT&&(f.id==='aadhaar'||f.id==='bank_acct')?(r.values[f.id]||'—'):fmt(f,r.values[f.id]))}</dd>`).join('')}</dl></div>`).join('')}
+ <div class="rvsec"><h3>Documents</h3><div class="docs">${(r.docs||[]).map(d=>`<div class="doc"><div class="ic">${d.type&&d.type.startsWith('image/')?`<img src="${bu(d.id)}" alt="" loading="lazy">`:ICONS.file}</div><div class="t"><b>${esc(d.label)}</b><small>${esc(d.name||'')}</small></div><a class="btn sm" href="${bu(d.id)}" target="_blank" rel="noopener">Open</a></div>`).join('')||'<p style="color:var(--muted)">No documents</p>'}</div></div>
+ <div class="rvsec"><h3>${r.role==='vendor'?'Empanelment letter':'Offer letter'}</h3>${r.offerLetter?`<p style="font-size:14px;margin:0 0 8px">Issued ${fmtD(r.offerLetter.issuedAt)} · ${esc(r.offerLetter.ref)}</p>`:'<p style="font-size:14px;margin:0 0 8px;color:var(--muted)">Not issued yet.</p>'}<div class="btnrow">${r.offerLetter&&r.offerLetter.id?`<a class="btn sm" href="${bu(r.offerLetter.id)}" target="_blank" rel="noopener">Open letter</a>`:''}${CAN_EDIT||r.createdBy===UID?`<button class="btn sm ${r.offerLetter?'':'primary'}" id="olMake">${r.offerLetter?'Re-issue':'Create letter'}</button>`:''}</div></div>
+ <div class="rvsec"><h3>Terms and signature</h3><p style="font-size:14px;margin:0 0 8px">Terms v${esc(r.terms&&r.terms.version)} accepted by <b>${esc(r.terms&&r.terms.signedName)}</b> on ${r.terms?new Date(r.terms.signedAt).toLocaleString('en-IN'):''}</p>${r.signature?`<img src="${bu(r.signature.id)}" alt="Signature" style="max-width:260px;background:#fff;border:1px solid var(--line);border-radius:10px">`:''}</div>
+ </div></div>`;
+ if($('#olMake'))$('#olMake').onclick=()=>{$('#dlg').classList.add('wide');$('#dlgT').textContent=r.role==='vendor'?'Empanelment letter':'Offer letter';letterEditor($('#dlgB'),r,{after:drawRecords})};
+ $('#dlg').classList.remove('wide');$('#dlg').showModal();
+}
+function csvExport(){
+ if(!DL||!RECS.length)return;
+ const keys=new Set();RECS.forEach(r=>Object.keys(r.values||{}).forEach(k=>keys.add(k)));
+ const cols=['recordId','roleName','createdAt',...keys,'documents','signedName','offerLetter'];
+ const cell=v=>{v=Array.isArray(v)?v.join('; '):v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+ const lines=[cols.join(',')].concat(RECS.map(r=>cols.map(c=>c==='documents'?cell((r.docs||[]).map(d=>d.label).join('; ')):c==='signedName'?cell(r.terms&&r.terms.signedName):c==='offerLetter'?cell(r.offerLetter?r.offerLetter.ref:''):(c in r&&c!=='values')?cell(r[c]):cell((r.values||{})[c])).join(',')));
+ DL.save({filename:`KEPR_onboarding_records_${new Date().toISOString().slice(0,10)}.csv`,data:new Blob([lines.join('\n')],{type:'text/csv'})}).catch(e=>{if(e&&e.code!=='cancelled')toast('Export was not completed')});
+}
+
+/* ---------------- shared helpers (payroll & exits) ---------------- */
+const inr=n=>'₹'+Math.round(Number(n)||0).toLocaleString('en-IN');
+function inWords(num){
+ num=Math.round(Math.abs(Number(num)||0));if(num===0)return 'Zero';
+ const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+ const b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+ const two=n=>n<20?a[n]:b[Math.floor(n/10)]+(n%10?' '+a[n%10]:'');
+ const three=n=>(n>=100?a[Math.floor(n/100)]+' Hundred'+(n%100?' ':''):'')+(n%100?two(n%100):'');
+ let out=[];const cr=Math.floor(num/1e7);num%=1e7;const lk=Math.floor(num/1e5);num%=1e5;const th=Math.floor(num/1e3);num%=1e3;
+ if(cr)out.push(three(cr)+' Crore');if(lk)out.push(two(lk)+' Lakh');if(th)out.push(two(th)+' Thousand');if(num)out.push(three(num));
+ return out.join(' ');
+}
+async function fetchRecords(){
+ if(!DB||!UID)return [];
+ let uids=[UID];
+ if(CAN_EDIT){const qs=await DB.collection('onboarding').get();uids=[...new Set(qs.docs.map(d=>d.id).concat(UID))]}
+ const all=[];
+ for(const u of uids){const qs=await DB.collection(`onboarding/${u}/records`).get();qs.docs.forEach(d=>{const x=d.data();if(x)all.push(Object.assign({_path:`onboarding/${u}/records/${d.id}`},x))})}
+ all.sort((a,b)=>String((a.values||{}).full_name||'').localeCompare(String((b.values||{}).full_name||'')));
+ return all;
+}
+const recName=r=>(r.values&&(r.values.business_name||r.values.full_name))||'—';
+function pdfKit(ref){
+ const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const W=210,M=18;
+ const CO=[238,106,79],DK=[38,33,33],MU=[110,104,102],LN=[236,226,222];const K={doc,W,M,CO,DK,MU,LN,y:0,page:1};
+ K.head=()=>{doc.setFillColor(...CO);doc.rect(0,0,W,4,'F');try{doc.addImage(document.querySelector('.top img').src,'PNG',M,10,14,14)}catch(e){}
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(...DK);doc.text('KEPR Care & Services',M+18,16.5);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...MU);doc.text("It's in good hands",M+18,21.5);
+  doc.text('Varthur, Bengaluru, Karnataka',W-M,13,{align:'right'});doc.text('+91 97396 98991  |  team@kepr.in',W-M,17.5,{align:'right'});doc.text('kepr.in',W-M,22,{align:'right'});
+  doc.setDrawColor(...LN);doc.setLineWidth(.3);doc.line(M,28,W-M,28);K.y=37};
+ K.foot=()=>{doc.setDrawColor(...LN);doc.line(M,284,W-M,284);doc.setFontSize(8);doc.setTextColor(...MU);doc.setFont('helvetica','normal');doc.text(`${ref}  |  KEPR Care & Services  |  kepr.in`,M,289);doc.text('Page '+K.page,W-M,289,{align:'right'})};
+ K.need=h=>{if(K.y+h>281){K.foot();doc.addPage();K.page++;K.head()}};
+ K.P=(t,o)=>{o=o||{};doc.setFont('helvetica',o.bold?'bold':'normal');doc.setFontSize(o.size||10);doc.setTextColor(...(o.color||DK));const ls=doc.splitTextToSize(latin(t),W-2*M);ls.forEach(l=>{K.need(5);doc.text(l,M,K.y);K.y+=4.6});K.y+=o.gap==null?2:o.gap};
+ K.rows=(rows,cw)=>{cw=cw||62;rows.forEach((r,i)=>{doc.setFontSize(9.5);const vl=doc.splitTextToSize(latin(r[1]==null||r[1]===''?'-':r[1]),W-2*M-cw-6);const h=Math.max(6,vl.length*4.2+1.8);K.need(h);
+  if(i%2===0){doc.setFillColor(255,246,242);doc.rect(M,K.y-4.2,W-2*M,h,'F')}
+  doc.setFont('helvetica','bold');doc.setTextColor(...MU);doc.text(latin(r[0]),M+3,K.y);doc.setFont('helvetica',r[2]?'bold':'normal');doc.setTextColor(...DK);vl.forEach((l,k)=>doc.text(l,M+cw,K.y+k*4.2));K.y+=h});K.y+=3};
+ K.sign=(left,right)=>{K.need(30);K.y+=4;const cx=W/2+6;doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(...DK);doc.text(latin(left[0]),M,K.y);if(right)doc.text(latin(right[0]),cx,K.y);
+  K.y+=12;doc.setDrawColor(...MU);doc.line(M,K.y,M+70,K.y);if(right)doc.line(cx,K.y,cx+70,K.y);K.y+=5;doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.text(latin(left[1]||''),M,K.y);if(right)doc.text(latin(right[1]||''),cx,K.y);K.y+=4.8;doc.setTextColor(...MU);doc.text(latin(left[2]||''),M,K.y);if(right)doc.text(latin(right[2]||''),cx,K.y);K.y+=6};
+ K.done=()=>{K.foot();return doc.output('blob')};
+ K.head();return K;
+}
+async function saveBlob(blob,filename){
+ if(DL){try{await DL.save({filename,data:blob})}catch(e){if(e&&e.code!=='cancelled')toast('Download was not completed')}}
+ else{const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove()}
+}
+function letterOpts(rec){return Object.assign(OL_DEF(rec),(rec.offerLetter&&rec.offerLetter.opts)||{})}
+const dOnly=s=>{if(!s)return null;const d=new Date(String(s).slice(0,10)+'T00:00:00');return isNaN(d)?null:d};
+
+/* ---------------- salary management ---------------- */
+let PAY={month:'',rows:{},settings:{pf:true,esi:true,pt:true,leave:1},recs:[],adv:{}};
+function defaultMonth(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return d.toISOString().slice(0,7)}
+function monthBounds(m){const [Y,Mn]=m.split('-').map(Number);return {Y,Mn,dim:new Date(Y,Mn,0).getDate(),start:new Date(Y,Mn-1,1),end:new Date(Y,Mn-1,new Date(Y,Mn,0).getDate())}}
+function activeIn(rec,m){
+ if(rec.role==='vendor')return false;const B=monthBounds(m);const jd=dOnly(rec.values&&rec.values.joining_date);
+ if(jd&&jd>B.end)return false;const ld=rec.exit&&dOnly(rec.exit.lastDay);if(ld&&ld<B.start)return false;return true;
+}
+function calcPay(rec,m,inp,st){
+ const V=rec.values||{},B=monthBounds(m),salary=+V.salary||0;let s=1,e=B.dim;
+ const jd=dOnly(V.joining_date);if(jd&&jd.getFullYear()===B.Y&&jd.getMonth()+1===B.Mn)s=jd.getDate();
+ const ld=rec.exit&&dOnly(rec.exit.lastDay);if(ld&&ld.getFullYear()===B.Y&&ld.getMonth()+1===B.Mn)e=ld.getDate();
+ const eligible=Math.max(0,e-s+1);const absent=Math.max(0,+inp.absent||0);const pl=Math.min(absent,Math.max(0,+inp.paidLeave||0),st.leave);
+ const lop=Math.max(0,absent-pl);const payDays=Math.max(0,eligible-lop);const perDay=B.dim?salary/B.dim:0;const lopAmt=Math.round(perDay*lop);const partAmt=Math.round(perDay*(B.dim-eligible));const gross=Math.max(0,salary-lopAmt-partAmt);
+ const extra=Math.max(0,+inp.extra||0),earn=gross+extra;
+ const pf=st.pf?Math.round(Math.min(gross,15000)*0.12):0;const esi=st.esi&&salary<=21000?Math.ceil(earn*0.0075):0;const pt=st.pt&&earn>=25000?200:0;
+ const firstMonth=!rec.manual&&jd&&jd.getFullYear()===B.Y&&jd.getMonth()+1===B.Mn;
+ const uniform=inp.uniform!=null&&inp.uniform!==''?Math.max(0,+inp.uniform||0):(firstMonth?(+letterOpts(rec).uniformCharge||0):0);
+ const adv=Math.max(0,+inp.advance||0),oth=Math.max(0,+inp.other||0);const ded=pf+esi+pt+uniform+adv+oth;
+ const net=earn-ded;const paidAmt=Math.max(0,+inp.paidAmt||0);
+ return {salary,dim:B.dim,perDay,lopAmt,partAmt,eligible,absent,paidLeave:pl,lop,payDays,gross,extra,earn,pf,esi,pt,uniform,adv,oth,ded,net,paidAmt,balance:net-paidAmt,advGiven:Math.max(0,+inp.advGiven||0)};
+}
+const payStatus=c=>c.paidAmt<=0?['Unpaid','pending']:c.paidAmt>=c.net?['Paid','ok']:['Part paid','pending'];
+function advBalance(id){const a=PAY.adv[id]||{given:0,rec:0};const R=PAY.rows[id];const g=a.given+(R?Math.max(0,+R.inp.advGiven||0):0);const r=a.rec+(R?Math.max(0,+R.inp.advance||0):0);return {given:g,recovered:r,balance:g-r}}
+async function loadPay(){
+ const host=$('#payBody');
+ if(!DB||!UID||!CAN_EDIT){host.innerHTML='<div class="empty-r">Salary management is available to KEPR admins when this tool is opened signed in to claude.ai.</div>';return}
+ if(!$('#payMonth').value)$('#payMonth').value=defaultMonth();
+ PAY.month=$('#payMonth').value;host.innerHTML='<div class="empty-r">Loading salaries…</div>';
+ try{
+  const [recs,manual,months]=await Promise.all([fetchRecords(),DB.collection('payroll/staff/people').get(),DB.collection('payroll').get()]);
+  const man=manual.docs.map(d=>{const x=d.data()||{};return Object.assign({},x,{manual:true,recordId:d.id,_path:'payroll/staff/people/'+d.id,role:'manual',roleName:x.designation||'Staff',values:{full_name:x.name,site:x.site,salary:x.salary,joining_date:x.joining_date,pay_mode:x.pay_mode,phone:x.phone},exit:x.lastDay?{lastDay:x.lastDay}:null})});
+  PAY.allRecs=recs.concat(man);
+  PAY.recs=PAY.allRecs.filter(r=>activeIn(r,PAY.month)).sort((a,b)=>recName(a).localeCompare(recName(b)));
+  PAY.adv={};let cur=null;
+  months.docs.forEach(d=>{if(d.id==='staff')return;const x=d.data()||{};if(d.id===PAY.month){cur=x;return}
+   Object.entries(x.rows||{}).forEach(([id,R])=>{const a=PAY.adv[id]||(PAY.adv[id]={given:0,rec:0});const i=R.inp||{};a.given+=Math.max(0,+i.advGiven||0);a.rec+=Math.max(0,+i.advance||0)})});
+  PAY.rows=JSON.parse(JSON.stringify((cur&&cur.rows)||{}));
+  Object.values(PAY.rows).forEach(R=>{if(R.paid&&!(+R.inp.paidAmt)&&R.calc)R.inp.paidAmt=R.calc.net});
+  PAY.settings=Object.assign({pf:true,esi:true,pt:true,leave:1},(cur&&cur.settings)||{});
+  ['pf','esi','pt'].forEach(k=>$('#pay_'+k).checked=!!PAY.settings[k]);$('#pay_leave').value=PAY.settings.leave;
+  PAY.dirty=false;$('#paySave').classList.remove('primary');drawPay();
+ }catch(e){console.error(e);host.innerHTML='<div class="empty-r">Salaries could not be loaded. Try again.</div>'}
+}
+function payInp(id){return PAY.rows[id]||(PAY.rows[id]={inp:{absent:0,paidLeave:0,extra:0,advance:0,other:0,advGiven:0,paidAmt:0}})}
+function markDirty(){PAY.dirty=true;$('#paySave').classList.add('primary')}
+function drawPay(){
+ const host=$('#payBody');const B=monthBounds(PAY.month);
+ const mName=new Date(B.Y,B.Mn-1,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+ if(!PAY.recs.length){host.innerHTML=`<div class="empty-r">No staff for ${mName} yet. Use <b>Add employee</b> to add someone, or onboard staff in New onboarding.</div>`;return}
+ let T={earn:0,ded:0,net:0,paid:0,adv:0};
+ const rows=PAY.recs.map(r=>{const R=payInp(r.recordId);const c=calcPay(r,PAY.month,R.inp,PAY.settings);R.calc=c;R.name=recName(r);T.earn+=c.earn;T.ded+=c.ded;T.net+=c.net;T.paid+=c.paidAmt;T.adv+=c.advGiven;
+  const ab=advBalance(r.recordId);const [st,cl]=payStatus(c);
+  const n=(k,v,ph,lab)=>`<input class="pin" type="number" min="0" data-id="${esc(r.recordId)}" data-k="${k}" value="${esc(v==null||v===0||v==='0'?'':v)}" placeholder="${esc(ph==null?'0':ph)}" aria-label="${esc(lab||k)} for ${esc(recName(r))}">`;
+  return `<tr><td class="sticky"><b>${esc(recName(r))}</b>${r.manual?' <span class="pill" style="font-size:10.5px">Added</span>':''}<br><small>${esc(r.roleName)}${(r.values||{}).site?' · '+esc(r.values.site):''}</small>${ab.balance>0?`<br><small style="color:var(--warn)">Advance balance ${inr(ab.balance)}</small>`:''}</td>
+  <td>${inr(c.salary)}</td><td>${c.eligible}</td><td>${n('absent',R.inp.absent,'0','Absent days')}</td><td><select class="pin" data-id="${esc(r.recordId)}" data-k="paidLeave" aria-label="Paid leave">${[...Array(PAY.settings.leave+1).keys()].map(i=>`<option ${+R.inp.paidLeave===i?'selected':''}>${i}</option>`).join('')}</select></td>
+  <td>${c.payDays}</td><td>${inr(Math.round(c.perDay))}</td><td>${c.lopAmt?`<b style="color:var(--red)">− ${inr(c.lopAmt)}</b><br><small>${c.lop} day${c.lop>1?'s':''} × ${inr(Math.round(c.perDay))}</small>`:'—'}</td><td>${inr(c.gross)}</td><td>${n('extra',R.inp.extra,'0','Extra pay')}</td><td>${inr(c.pf+c.esi+c.pt)}</td><td>${n('uniform',R.inp.uniform,String(c.uniform),'Uniform')}</td>
+  <td>${n('advGiven',R.inp.advGiven,'0','Advance given')}</td><td>${n('advance',R.inp.advance,'0','Advance recovered')}</td><td>${n('other',R.inp.other,'0','Other deductions')}</td>
+  <td><b>${inr(c.net)}</b></td>
+  <td><div style="display:flex;gap:6px;align-items:center">${n('paidAmt',R.inp.paidAmt,'0','Amount paid')}<button class="btn sm" data-full="${esc(r.recordId)}" title="Mark net pay as fully paid">Full</button></div><small class="pill ${cl}" style="display:inline-block;margin-top:4px">${st}${c.paidAmt>0&&c.balance>0?' · '+inr(c.balance)+' due':''}</small></td>
+  <td style="white-space:nowrap"><button class="btn sm" data-slip="${esc(r.recordId)}">Payslip</button>${r.manual?` <button class="btn sm" data-edit="${esc(r.recordId)}">Edit</button>`:''}</td></tr>`}).join('');
+ host.innerHTML=`<div class="paysum"><div><span>Staff</span><b>${PAY.recs.length}</b></div><div><span>Gross earnings</span><b>${inr(T.earn)}</b></div><div><span>Deductions</span><b>${inr(T.ded)}</b></div><div><span>Net payable</span><b>${inr(T.net)}</b></div><div><span>Paid so far</span><b>${inr(T.paid)}</b></div><div><span>Advances given</span><b>${inr(T.adv)}</b></div></div>
+ <div class="tbl paytbl"><table><thead><tr><th class="sticky">Employee</th><th>Monthly salary</th><th>Eligible days</th><th>Absent days</th><th>Paid leave</th><th>Pay days</th><th>Per day ₹</th><th>Absence deduction</th><th>Earned</th><th>Extra / OT ₹</th><th>PF + ESI + PT</th><th>Uniform ₹</th><th>Advance given ₹</th><th>Advance recovered ₹</th><th>Other ded. ₹</th><th>Net pay</th><th>Amount paid ₹</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+ <p class="hint" style="font-size:12.5px;color:var(--muted);margin-top:10px">Per day = monthly salary ÷ ${B.dim} days in ${mName}. Absence deduction = absent days beyond the paid leave × per day. Earned = monthly salary − absence deduction (and days before joining or after leaving). <b>Advance given</b> is cash advanced to the employee this month; <b>Advance recovered</b> is deducted from this month's salary. The advance balance carries across months. Salaries for ${mName} are due by the ${ord(letterOpts(PAY.recs[0]).salaryDay||10)} of the next month.</p>`;
+ host.querySelectorAll('.pin').forEach(el=>el.addEventListener('change',()=>{const R=payInp(el.dataset.id);const k=el.dataset.k;R.inp[k]=el.value===''?(k==='uniform'?null:0):+el.value;if(k==='paidAmt')R.paidOn=+el.value>0?(R.paidOn||new Date().toISOString()):null;markDirty();drawPay()}));
+ host.querySelectorAll('[data-full]').forEach(b=>b.onclick=()=>{const R=payInp(b.dataset.full);R.inp.paidAmt=Math.max(0,(R.calc||{}).net||0);R.paidOn=new Date().toISOString();markDirty();drawPay()});
+ host.querySelectorAll('[data-slip]').forEach(el=>el.onclick=()=>payslip(PAY.recs.find(r=>r.recordId===el.dataset.slip)));
+ host.querySelectorAll('[data-edit]').forEach(el=>el.onclick=()=>staffForm(PAY.recs.find(r=>r.recordId===el.dataset.edit)));
+}
+async function savePay(){
+ if(!DB||!CAN_EDIT)return;const btn=$('#paySave');btn.disabled=true;
+ const rows={};PAY.recs.forEach(r=>{const R=payInp(r.recordId);const c=R.calc||calcPay(r,PAY.month,R.inp,PAY.settings);rows[r.recordId]={inp:R.inp,calc:c,paid:c.paidAmt>=c.net&&c.net>0,paidOn:R.paidOn||null,name:recName(r),path:r._path,manual:!!r.manual}});
+ try{await DB.doc('payroll/'+PAY.month).set({month:PAY.month,settings:PAY.settings,rows,updatedAt:new Date().toISOString(),updatedBy:UID});PAY.dirty=false;btn.classList.remove('primary');toast('Salaries saved')}
+ catch(e){toast(e&&e.code==='quota_exceeded'?'Storage is full':'Salaries could not be saved')}
+ btn.disabled=false;
+}
+function staffForm(rec){
+ const x=rec?Object.assign({},rec):{name:'',designation:'',site:'',salary:'',joining_date:'',pay_mode:'Cash',phone:'',lastDay:''};
+ if(rec)Object.assign(x,{name:rec.name,designation:rec.designation,site:rec.site,salary:rec.salary,joining_date:rec.joining_date,pay_mode:rec.pay_mode,phone:rec.phone,lastDay:rec.lastDay||''});
+ $('#dlg').classList.remove('wide');$('#dlgT').textContent=rec?'Edit employee':'Add employee';
+ const f=(id,l,t,v,extra,req)=>`<div class="f ${extra&&extra.includes('full')?'full':''}"><label class="l" for="${id}">${l}${req?' <span class="req">*</span>':''}</label><input type="${t}" id="${id}" value="${esc(v==null?'':v)}" ${extra&&!extra.includes('full')?extra:''}></div>`;
+ $('#dlgB').innerHTML=`<p class="lead" style="margin-bottom:14px">Add staff who were not onboarded through this tool, so you can manage their salary and advances here.</p>
+ <div class="grid">${f('sfName','Name','text',x.name,'full',1)}${f('sfDes','Designation','text',x.designation,'placeholder="Security guard, Housekeeping…"')}${f('sfSite','Site','text',x.site)}
+ ${f('sfSal','Monthly salary (₹)','number',x.salary,'min="0"',1)}${f('sfJoin','Date of joining','date',x.joining_date)}
+ <div class="f"><label class="l" for="sfMode">Payment mode</label><select id="sfMode">${['Cash','Bank transfer','UPI'].map(o=>`<option ${x.pay_mode===o?'selected':''}>${o}</option>`).join('')}</select></div>${f('sfPhone','Mobile number','tel',x.phone,'inputmode="numeric"')}
+ ${rec?f('sfLeft','Last working day (if left)','date',x.lastDay):''}
+ ${rec?'':`<div class="f full" style="border-top:1px solid var(--line);padding-top:12px;margin-top:4px"><span style="display:block;font-weight:600;font-size:13.5px;margin-bottom:6px">Advance already given this month (optional)</span><input type="number" id="sfAdv" min="0" placeholder="0" style="width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--field)"></div>`}</div>
+ <div class="nav">${rec?'<button class="btn" id="sfDel">Remove</button>':'<button class="btn" id="sfCancel">Cancel</button>'}<button class="btn primary" id="sfSave">${rec?'Save changes':'Add employee'}</button></div>`;
+ if(!$('#dlg').open)$('#dlg').showModal();
+ if($('#sfCancel'))$('#sfCancel').onclick=()=>$('#dlg').close();
+ $('#sfSave').onclick=async()=>{
+  const name=$('#sfName').value.trim(),sal=+$('#sfSal').value;if(!name){toast('Enter the name');$('#sfName').focus();return}if(!(sal>0)){toast('Enter the monthly salary');$('#sfSal').focus();return}
+  const data={name,designation:$('#sfDes').value.trim(),site:$('#sfSite').value.trim(),salary:sal,joining_date:$('#sfJoin').value,pay_mode:$('#sfMode').value,phone:$('#sfPhone').value.replace(/\D/g,''),lastDay:$('#sfLeft')?$('#sfLeft').value:'',updatedAt:new Date().toISOString(),updatedBy:UID};
+  const id=rec?rec.recordId:'M-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();
+  try{await DB.doc('payroll/staff/people/'+id).set(Object.assign({createdAt:rec&&rec.createdAt||new Date().toISOString()},data));
+   const adv=$('#sfAdv')?+$('#sfAdv').value:0;
+   $('#dlg').close();toast(rec?'Employee updated':'Employee added');
+   const keep=JSON.parse(JSON.stringify(PAY.rows)),dirty=PAY.dirty;await loadPay();if(dirty){Object.assign(PAY.rows,keep);markDirty()}
+   if(adv>0){const R=payInp(id);R.inp.advGiven=adv;markDirty();toast('Employee added. Save salaries to record the advance.')}
+   drawPay();
+  }catch(e){toast('Could not save the employee')}
+ };
+ if($('#sfDel'))$('#sfDel').onclick=async()=>{const b=$('#sfDel');if(!b.dataset.c){b.dataset.c=1;b.textContent='Tap again to remove';return}
+  try{await DB.doc(rec._path).delete();$('#dlg').close();toast('Employee removed');loadPay()}catch(e){toast('Could not remove')}};
+}
+function payslip(rec){
+ if(!window.jspdf){toast('The PDF tool is still loading. Try again in a moment.');return}
+ const R=payInp(rec.recordId),c=R.calc||calcPay(rec,PAY.month,R.inp,PAY.settings),V=rec.values||{},B=monthBounds(PAY.month);
+ const mName=new Date(B.Y,B.Mn-1,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+ const ref=`KEPR/PS/${PAY.month}/${String(rec.recordId).replace(/^KEPR-/,'')}`;const K=pdfKit(ref),doc=K.doc;
+ K.P('Salary slip - '+mName,{bold:1,size:13,gap:4});
+ K.rows([['Employee',recName(rec)],['Employee ID',rec.recordId],['Designation',rec.roleName],['Site',V.site],['Date of joining',fmtD(V.joining_date)],['UAN / ESIC',[V.uan,V.esic].filter(Boolean).join(' / ')||'-'],['Pay days',`${c.payDays} of ${c.dim} (absent ${c.absent}, paid leave ${c.paidLeave}, loss of pay ${c.lop})`]]);
+ const colW=(K.W-2*K.M-6)/2,x2=K.M+colW+6;K.need(70);let y0=K.y;
+ const block=(x,title,items,total)=>{let y=y0;doc.setFillColor(255,240,235);doc.rect(x,y-4.5,colW,7,'F');doc.setFont('helvetica','bold');doc.setFontSize(9.8);doc.setTextColor(...K.DK);doc.text(title,x+3,y);doc.text('Amount (Rs.)',x+colW-3,y,{align:'right'});y+=7;
+  doc.setFont('helvetica','normal');items.forEach(it=>{doc.text(latin(it[0]),x+3,y);doc.text(Number(it[1]).toLocaleString('en-IN'),x+colW-3,y,{align:'right'});y+=5.6});
+  doc.setDrawColor(...K.LN);doc.line(x,y-3,x+colW,y-3);doc.setFont('helvetica','bold');doc.text(total[0],x+3,y+1.5);doc.text(Number(total[1]).toLocaleString('en-IN'),x+colW-3,y+1.5,{align:'right'});return y+6};
+ const e=[['Monthly salary',c.salary]];if(c.extra)e.push(['Extra / overtime',c.extra]);
+ const d=[];if(c.lopAmt)d.push([`Absent ${c.lop} day${c.lop>1?'s':''} x Rs. ${Math.round(c.perDay).toLocaleString('en-IN')}/day`,c.lopAmt]);if(c.partAmt)d.push([`${c.dim-c.eligible} day(s) not employed`,c.partAmt]);if(PAY.settings.pf)d.push(['Provident Fund',c.pf]);if(PAY.settings.esi)d.push(['ESI',c.esi]);if(PAY.settings.pt)d.push(['Professional tax',c.pt]);if(c.uniform)d.push(['Uniform charge',c.uniform]);if(c.adv)d.push(['Advance recovered',c.adv]);if(c.oth)d.push(['Other deductions',c.oth]);if(!d.length)d.push(['-',0]);
+ const ya=block(K.M,'Earnings',e,['Total earnings',c.salary+c.extra]),yb=block(x2,'Deductions',d,['Total deductions',c.ded+c.lopAmt+c.partAmt]);K.y=Math.max(ya,yb)+6;
+ doc.setFillColor(...K.CO);doc.roundedRect(K.M,K.y-5,K.W-2*K.M,14,2,2,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(11.5);doc.text('Net pay: Rs. '+c.net.toLocaleString('en-IN'),K.M+4,K.y+3.5);
+ doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text(latin('Rupees '+inWords(c.net)+' only'),K.W-K.M-4,K.y+3.5,{align:'right'});K.y+=16;
+ const pay=V.pay_mode==='Bank transfer'?`Bank transfer${V.bank_acct?', account ending '+String(V.bank_acct).slice(-4):''}`:V.pay_mode==='UPI'?`UPI${V.upi?' ('+V.upi+')':''}`:'Cash';
+ const ab=advBalance(rec.recordId);const [st]=payStatus(c);
+ const rws=[['Payment mode',pay],['Amount paid','Rs. '+c.paidAmt.toLocaleString('en-IN')+(R.paidOn?' on '+fmtD(R.paidOn):'')],['Status',st+(c.paidAmt>0&&c.balance>0?' - Rs. '+c.balance.toLocaleString('en-IN')+' still due':'')]];
+ if(c.advGiven||ab.given)rws.push(['Advance given this month','Rs. '+c.advGiven.toLocaleString('en-IN')],['Advance balance after this month','Rs. '+Math.max(0,ab.balance).toLocaleString('en-IN')]);
+ K.rows(rws);
+ K.P('This is a computer-generated salary slip.',{size:8.5,color:K.MU,gap:6});
+ K.sign(['For KEPR Care & Services','Authorised signatory',''],[(V.pay_mode==='Cash'?'Received by':'Employee'),recName(rec),'Date:']);
+ saveBlob(K.done(),`${ref.replace(/\//g,'_')}.pdf`);
+}
+function payCSV(){
+ const cols=['Employee ID','Name','Role','Site','Monthly salary','Eligible days','Absent','Paid leave','Loss of pay','Pay days','Per day','Absence deduction','Earned','Extra','PF','ESI','PT','Uniform','Advance given','Advance recovered','Advance balance','Other','Total deductions','Net pay','Amount paid','Balance due','Status','Paid on','Payment mode','Bank account','IFSC','UPI'];
+ const cell=v=>{v=v==null?'':String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+ const lines=[cols.join(',')].concat(PAY.recs.map(r=>{const R=payInp(r.recordId),c=R.calc||calcPay(r,PAY.month,R.inp,PAY.settings),V=r.values||{},ab=advBalance(r.recordId);
+  return [r.recordId,recName(r),r.roleName,V.site,c.salary,c.eligible,c.absent,c.paidLeave,c.lop,c.payDays,Math.round(c.perDay),c.lopAmt,c.gross,c.extra,c.pf,c.esi,c.pt,c.uniform,c.advGiven,c.adv,ab.balance,c.oth,c.ded,c.net,c.paidAmt,c.balance,payStatus(c)[0],R.paidOn?fmtD(R.paidOn):'',V.pay_mode,V.bank_acct,V.ifsc,V.upi].map(cell).join(',')}));
+ saveBlob(new Blob([lines.join('\n')],{type:'text/csv'}),`KEPR_salary_${PAY.month}.csv`);
+}
+
+/* ---------------- exits / termination ---------------- */
+let EXR=[];
+const EXIT_TYPES=['Resignation','End of agreement period','Termination - misconduct','Termination - performance','Absconding / unauthorised absence','Vendor engagement ended'];
+async function loadExits(){
+ const host=$('#exitBody');
+ if(!DB||!UID||!CAN_EDIT){host.innerHTML='<div class="empty-r">Exits are available to KEPR admins when this tool is opened signed in to claude.ai.</div>';return}
+ host.innerHTML='<div class="empty-r">Loading…</div>';
+ try{EXR=await fetchRecords();drawExits()}catch(e){host.innerHTML='<div class="empty-r">Could not load. Try again.</div>'}
+}
+function drawExits(){
+ const host=$('#exitBody');const q=($('#exq').value||'').toLowerCase();const show=$('#exshow').value;
+ const list=EXR.filter(r=>(show==='all'||(show==='active'?!r.exit:!!r.exit))&&(!q||[recName(r),(r.values||{}).phone,(r.values||{}).site,r.recordId].join(' ').toLowerCase().includes(q)));
+ if(!EXR.length){host.innerHTML='<div class="empty-r">No one has been onboarded yet.</div>';return}
+ if(!list.length){host.innerHTML='<div class="empty-r">No one matches this filter.</div>';return}
+ host.innerHTML=`<div class="tbl"><table><thead><tr><th></th><th>Name</th><th>Role</th><th>Site</th><th>Joined</th><th>Status</th><th></th></tr></thead><tbody>${list.map(r=>`<tr data-x="${esc(r.recordId)}">
+ <td>${r.photo?`<img class="av" src="${bu(r.photo.id)}" alt="" loading="lazy">`:'<span class="av" style="display:inline-block"></span>'}</td><td><b>${esc(recName(r))}</b><br><small style="color:var(--muted)">${esc(r.recordId)}</small></td><td>${esc(r.roleName)}</td><td>${esc((r.values||{}).site||'—')}</td>
+ <td>${esc(fmtD((r.values||{}).joining_date||(r.values||{}).start_date))}</td><td>${r.exit?`<span class="pill rej">Exited ${esc(fmtD(r.exit.lastDay))}</span>`:'<span class="pill ok">Active</span>'}</td>
+ <td><button class="btn sm ${r.exit?'':'primary'}" data-open="${esc(r.recordId)}">${r.exit?'View exit':'Start exit'}</button></td></tr>`).join('')}</tbody></table></div>`;
+ host.querySelectorAll('[data-open]').forEach(b=>b.onclick=e=>{e.stopPropagation();exitForm(EXR.find(r=>r.recordId===b.dataset.open))});
+}
+function exitCalc(rec,x){
+ const V=rec.values||{},ld=dOnly(x.lastDay),salary=+V.salary||0;let earned=0,days=0,dim=30;
+ if(ld&&rec.role!=='vendor'){dim=new Date(ld.getFullYear(),ld.getMonth()+1,0).getDate();const jd=dOnly(V.joining_date);let s=1;if(jd&&jd.getFullYear()===ld.getFullYear()&&jd.getMonth()===ld.getMonth())s=jd.getDate();days=x.daysWorked!==''&&x.daysWorked!=null?+x.daysWorked:Math.max(0,ld.getDate()-s+1);earned=Math.round(salary*days/dim)}
+ const pend=+x.pending||0,oth=+x.otherDues||0,adv=+x.advance||0,prop=+x.propertyValue||0,pen=x.applyPenalty?(+x.penalty||0):0;
+ return {days,dim,earned,pend,oth,adv,prop,pen,net:earned+pend+oth-adv-prop-pen};
+}
+function exitDefaults(rec){
+ const o=letterOpts(rec),V=rec.values||{},jd=dOnly(V.joining_date);const today=new Date().toISOString().slice(0,10);
+ let inTerm=false;if(jd){const end=new Date(jd);end.setMonth(end.getMonth()+(+o.termMonths||6));inTerm=new Date()<end}
+ return {type:rec.role==='vendor'?'Vendor engagement ended':'Resignation',noticeDate:today,lastDay:today,reason:'',showCause:'',explanation:'',finding:'',
+  property:{Uniform:false,'ID card':false,Keys:false,'Equipment / tools':false,'Registers / documents':false},propertyValue:0,
+  daysWorked:'',pending:0,otherDues:0,advance:0,penalty:+o.exitPenalty||20000,applyPenalty:inTerm&&rec.role!=='vendor',settleDate:'',settleMode:V.pay_mode||'',termMonths:+o.termMonths||6};
+}
+function exitForm(rec){
+ const x=Object.assign(exitDefaults(rec),JSON.parse(JSON.stringify(rec.exit||{})));const vendor=rec.role==='vendor';
+ const types=vendor?['Vendor engagement ended']:EXIT_TYPES.filter(t=>t!=='Vendor engagement ended');
+ $('#dlg').classList.add('wide');$('#dlgT').textContent=(rec.exit?'Exit – ':'Start exit – ')+recName(rec);
+ const V=rec.values||{};const jd=dOnly(V.joining_date);
+ const termEnd=jd?(()=>{const e=new Date(jd);e.setMonth(e.getMonth()+x.termMonths);return e})():null;
+ $('#dlgB').innerHTML=`<div class="exgrid"><div>
+  <p class="note" style="margin-bottom:14px">${esc(rec.roleName)} · ${esc(V.site||'')} · joined ${esc(fmtD(V.joining_date||V.start_date))}${termEnd&&!vendor?` · agreement till ${esc(fmtD(termEnd))}`:''} · salary ${inr(V.salary)}</p>
+  <h2 style="margin-top:0">Exit details</h2>
+  <div class="grid">
+   <div class="f full"><label class="l" for="xType">Exit type</label><select id="xType">${types.map(t=>`<option ${x.type===t?'selected':''}>${t}</option>`).join('')}</select></div>
+   <div class="f"><label class="l" for="xNotice">${vendor?'Notice date':'Resignation / notice date'}</label><input type="date" id="xNotice" value="${esc(x.noticeDate)}"></div>
+   <div class="f"><label class="l" for="xLast">Last working day</label><input type="date" id="xLast" value="${esc(x.lastDay)}"></div>
+   <div class="f full"><label class="l" for="xReason">Reason and details</label><textarea id="xReason">${esc(x.reason)}</textarea></div>
+  </div>
+  <div id="xMis" ${/misconduct|performance|Absconding/.test(x.type)?'':'hidden'}>
+   <p class="note warn">Before terminating for misconduct, performance or absence, issue a written show-cause notice and give the person a fair chance to explain. Record it here.</p>
+   <div class="grid"><div class="f"><label class="l" for="xSC">Show-cause notice date</label><input type="date" id="xSC" value="${esc(x.showCause)}"></div>
+   <div class="f"><label class="l" for="xExp">Explanation received</label><select id="xExp"><option value="">Select</option>${['Yes','No reply','Not applicable'].map(o=>`<option ${x.explanation===o?'selected':''}>${o}</option>`).join('')}</select></div>
+   <div class="f full"><label class="l" for="xFind">Inquiry finding</label><textarea id="xFind">${esc(x.finding)}</textarea></div></div>
+  </div>
+  ${vendor?'':`<h2>Company property returned</h2><div class="chips">${Object.keys(x.property).map(k=>`<label class="chip"><input type="checkbox" data-prop="${esc(k)}" ${x.property[k]?'checked':''}><span>${esc(k)}</span></label>`).join('')}</div>
+  <div class="grid" style="margin-top:12px"><div class="f"><label class="l" for="xProp">Value of items not returned (₹)</label><input type="number" min="0" id="xProp" value="${esc(x.propertyValue)}"></div></div>
+  <h2>Full and final settlement</h2>
+  <div class="grid">
+   <div class="f"><label class="l" for="xDays">Days worked in last month</label><input type="number" min="0" id="xDays" value="${esc(x.daysWorked)}" placeholder="Auto"></div>
+   <div class="f"><label class="l" for="xPend">Unpaid salary of earlier months (₹)</label><input type="number" min="0" id="xPend" value="${esc(x.pending)}"></div>
+   <div class="f"><label class="l" for="xOth">Other dues payable (₹)</label><input type="number" min="0" id="xOth" value="${esc(x.otherDues)}"></div>
+   <div class="f"><label class="l" for="xAdv">Advance to recover (₹)</label><input type="number" min="0" id="xAdv" value="${esc(x.advance)}"></div>
+   <div class="f"><label class="l" for="xPen">Penalty as per agreement (₹)</label><input type="number" min="0" id="xPen" value="${esc(x.penalty)}"></div>
+   <div class="f"><label class="check" style="margin-top:28px"><input type="checkbox" id="xApply" ${x.applyPenalty?'checked':''}><span>Apply penalty (left before ${x.termMonths}-month agreement ended)</span></label></div>
+   <div class="f"><label class="l" for="xSDate">Settlement date</label><input type="date" id="xSDate" value="${esc(x.settleDate)}"></div>
+   <div class="f"><label class="l" for="xSMode">Settlement paid by</label><select id="xSMode"><option value="">Select</option>${['Bank transfer','UPI','Cash'].map(o=>`<option ${x.settleMode===o?'selected':''}>${o}</option>`).join('')}</select></div>
+  </div>
+  <p class="hint" style="font-size:12.5px;color:var(--muted)">Pay the final settlement promptly; wage law requires dues to be paid within 2 working days of the exit. Recovering a penalty from wages may not be permitted; take advice before deducting it.</p>`}
+ </div>
+ <div><div class="fnf" id="xSum"></div>
+  <div class="btnrow" style="margin-top:12px"><button class="btn primary" id="xSave">${rec.exit?'Update exit':'Save exit'}</button><button class="btn" id="xLetter">Download exit letter</button>${rec.exit?'<button class="btn" id="xUndo">Cancel exit</button>':''}</div>
+  <p class="hint" style="font-size:12.5px;color:var(--muted);margin-top:8px">${vendor?'The letter confirms the end of the vendor engagement.':'The letter is a relieving letter for resignations and end of agreement, or a termination letter otherwise, with the settlement statement attached.'}</p>
+ </div></div>`;
+ const read=()=>{const g=id=>{const e=$('#'+id);return e?e.value:undefined};
+  x.type=g('xType');x.noticeDate=g('xNotice');x.lastDay=g('xLast');x.reason=g('xReason');x.showCause=g('xSC')||'';x.explanation=g('xExp')||'';x.finding=g('xFind')||'';
+  if(!vendor){x.propertyValue=+g('xProp')||0;x.daysWorked=g('xDays');x.pending=+g('xPend')||0;x.otherDues=+g('xOth')||0;x.advance=+g('xAdv')||0;x.penalty=+g('xPen')||0;x.applyPenalty=$('#xApply').checked;x.settleDate=g('xSDate');x.settleMode=g('xSMode');
+   $('#dlgB').querySelectorAll('[data-prop]').forEach(c=>x.property[c.dataset.prop]=c.checked)}
+  $('#xMis').hidden=!/misconduct|performance|Absconding/.test(x.type);};
+ const sum=()=>{read();const c=exitCalc(rec,x);
+  $('#xSum').innerHTML=vendor?`<h3>Engagement end</h3><dl class="kv"><dt>Last working day</dt><dd>${esc(fmtD(x.lastDay))}</dd><dt>Notice given</dt><dd>${esc(fmtD(x.noticeDate))}</dd></dl>`:
+  `<h3>Settlement</h3><dl class="kv"><dt>Salary for ${c.days} day${c.days===1?'':'s'}</dt><dd>${inr(c.earned)}</dd><dt>Earlier unpaid salary</dt><dd>${inr(c.pend)}</dd><dt>Other dues</dt><dd>${inr(c.oth)}</dd><dt>Less: advance</dt><dd>− ${inr(c.adv)}</dd><dt>Less: unreturned property</dt><dd>− ${inr(c.prop)}</dd><dt>Less: penalty</dt><dd>− ${inr(c.pen)}</dd></dl>
+  <div class="fnftot ${c.net<0?'neg':''}"><span>${c.net<0?'Recoverable from employee':'Net payable to employee'}</span><b>${inr(Math.abs(c.net))}</b></div>
+  <p class="hint" style="font-size:12px;color:var(--muted);margin:6px 0 0">Property: ${Object.entries(x.property).filter(e=>e[1]).map(e=>e[0]).join(', ')||'none marked returned'}</p>`;};
+ $('#dlgB').querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener(el.tagName==='SELECT'||el.type==='checkbox'?'change':'input',sum));sum();
+ $('#xSave').onclick=async()=>{read();if(!x.lastDay){toast('Enter the last working day');return}
+  const data=Object.assign({},x,{calc:exitCalc(rec,x),savedAt:new Date().toISOString(),savedBy:UID});
+  try{await DB.doc(rec._path).update({exit:data});rec.exit=data;toast('Exit saved');drawExits();exitForm(rec)}catch(e){toast('Exit could not be saved')}};
+ $('#xLetter').onclick=()=>{read();exitLetter(rec,x)};
+ if($('#xUndo'))$('#xUndo').onclick=async()=>{const b=$('#xUndo');if(!b.dataset.c){b.dataset.c=1;b.textContent='Tap again to cancel exit';return}
+  try{await DB.doc(rec._path).update({exit:null});rec.exit=null;toast('Exit cancelled');drawExits();$('#dlg').close()}catch(e){toast('Could not cancel the exit')}};
+ if(!$('#dlg').open)$('#dlg').showModal();
+}
+function exitLetter(rec,x){
+ if(!window.jspdf){toast('The PDF tool is still loading. Try again in a moment.');return}
+ const V=rec.values||{},vendor=rec.role==='vendor',c=exitCalc(rec,x);
+ const relieve=/Resignation|End of agreement/.test(x.type);
+ const kind=vendor?'VT':relieve?'RL':'TL';const ref=`KEPR/${kind}/${String(rec.recordId).replace(/^KEPR-/,'')}`;
+ const K=pdfKit(ref);const doc=K.doc;
+ doc.setFontSize(9.5);doc.setTextColor(...K.MU);doc.text('Ref: '+ref,K.M,K.y);doc.text('Date: '+fmtD(new Date()),K.W-K.M,K.y,{align:'right'});K.y+=8;
+ doc.setTextColor(...K.DK);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.text('To',K.M,K.y);K.y+=5.2;doc.setFont('helvetica','normal');doc.setFontSize(10);
+ (vendor?[V.business_name,'Attn: '+(V.full_name||''),V.b_address,[V.city,V.pincode].filter(Boolean).join(' - ')]:[V.full_name,V.cur_address,[V.city,V.pincode].filter(Boolean).join(' - '),V.phone?'Phone: '+V.phone:'']).filter(Boolean).forEach(l=>doc.splitTextToSize(latin(l),110).forEach(t=>{doc.text(t,K.M,K.y);K.y+=4.6}));K.y+=4;
+ const jd=fmtD(V.joining_date||V.start_date),ld=fmtD(x.lastDay);
+ if(vendor){
+  K.P('Subject: End of vendor engagement',{bold:1,size:11,gap:4});K.P(`Dear ${V.full_name||'Sir / Madam'},`);
+  K.P(`This is to inform you that the engagement of ${V.business_name||'your firm'} as a service vendor with KEPR Care & Services, which began on ${jd}, will end on ${ld}, as per the notice dated ${fmtD(x.noticeDate)}.`);
+  if(x.reason)K.P('Reason: '+x.reason);
+  K.P('Please complete all work and hand over site access, keys and records by the last working day. Invoices for work done up to that date will be settled as per the agreed payment terms after verification. The confidentiality obligations in the empanelment terms continue after the engagement ends.',{gap:4});
+  K.sign(['For KEPR Care & Services','Authorised signatory',''],['Received for '+(V.business_name||'the vendor'),V.full_name||'','Date:']);
+  saveBlob(K.done(),ref.replace(/\//g,'_')+'.pdf');return;
+ }
+ if(relieve){
+  K.P('Subject: Relieving and experience letter',{bold:1,size:11,gap:4});K.P(`Dear ${V.full_name||''},`);
+  K.P(x.type==='Resignation'?`This is to confirm that your resignation dated ${fmtD(x.noticeDate)} has been accepted. You are relieved from your duties with KEPR Care & Services at the close of your shift on ${ld}.`:`This is to confirm that your agreement with KEPR Care & Services has been completed, and you are relieved from your duties at the close of your shift on ${ld}.`);
+  K.P(`You worked with us as ${rec.roleName} at ${V.site||'our client site'} from ${jd} to ${ld}. Your full and final settlement is set out in the statement below.`);
+  K.P('We thank you for your service and wish you the very best.',{gap:4});
+ }else{
+  K.P('Subject: Termination of employment',{bold:1,size:11,gap:4});K.P(`Dear ${V.full_name||''},`);
+  const why=x.type==='Absconding / unauthorised absence'?'your continued unauthorised absence from duty':x.type==='Termination - performance'?'unsatisfactory performance':'misconduct';
+  K.P(`You were employed with KEPR Care & Services as ${rec.roleName} at ${V.site||'our client site'} from ${jd}.${x.showCause?` A show-cause notice was issued to you on ${fmtD(x.showCause)}${x.explanation==='Yes'?' and your explanation was considered':x.explanation==='No reply'?' and no reply was received':''}.`:''}`);
+  K.P(`After due consideration, your employment is terminated on account of ${why}, with effect from ${ld}, as per the KEPR company policies and the terms of your offer letter.`);
+  if(x.reason)K.P('Details: '+x.reason);if(x.finding)K.P('Inquiry finding: '+x.finding);
+  K.P('Please return all company property, including uniform, ID card, keys and equipment, immediately. Your full and final settlement is set out in the statement below. The confidentiality obligations in your terms continue after your employment ends.',{gap:4});
+ }
+ K.sign(['For KEPR Care & Services','Authorised signatory',''],['Received by',V.full_name||'','Date:']);
+ K.need(80);K.y+=2;K.P('Full and final settlement statement',{bold:1,size:11.5,gap:3});
+ K.rows([['Employee',`${V.full_name||''} (${rec.recordId})`],['Last working day',ld],[`Salary for ${c.days} day(s) of last month`,'Rs. '+c.earned.toLocaleString('en-IN')],['Unpaid salary of earlier months','Rs. '+c.pend.toLocaleString('en-IN')],['Other dues','Rs. '+c.oth.toLocaleString('en-IN')],['Less: advance recovered','Rs. '+c.adv.toLocaleString('en-IN')],['Less: unreturned company property','Rs. '+c.prop.toLocaleString('en-IN')],['Less: penalty as per agreement','Rs. '+c.pen.toLocaleString('en-IN')],[c.net<0?'Amount recoverable from employee':'Net amount payable','Rs. '+Math.abs(c.net).toLocaleString('en-IN')+' (Rupees '+inWords(c.net)+' only)',1],['Company property returned',Object.entries(x.property).filter(e=>e[1]).map(e=>e[0]).join(', ')||'None marked'],['Settlement',x.settleDate?`Paid on ${fmtD(x.settleDate)}${x.settleMode?' by '+x.settleMode:''}`:'Pending']]);
+ K.P('I confirm that I have received the above settlement and have no further claims against KEPR Care & Services.',{size:9.5,gap:2});
+ K.sign(['Employee signature',V.full_name||'','Date:']);
+ saveBlob(K.done(),ref.replace(/\//g,'_')+'.pdf');
+}
+
+/* ---------------- dashboard ---------------- */
+const mKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+const mLabel=k=>{const [y,m]=k.split('-').map(Number);return new Date(y,m-1,1).toLocaleDateString('en-IN',{month:'short'})+' '+String(y).slice(2)};
+function lastMonths(n){const out=[];const d=new Date();d.setDate(1);for(let i=n-1;i>=0;i--){const x=new Date(d.getFullYear(),d.getMonth()-i,1);out.push(mKey(x))}return out}
+function hbars(items,unit){
+ if(!items.length)return '<p class="dempty">No data yet.</p>';
+ const max=Math.max(...items.map(i=>i.value),1);
+ return `<div class="hb">${items.map(i=>`<div class="hbr"><span class="hbl" title="${esc(i.label)}">${esc(i.label)}</span><span class="hbt"><i style="width:${Math.max(2,i.value/max*100)}%"></i></span><b>${unit==='inr'?inr(i.value):i.value}</b></div>`).join('')}</div>`;
+}
+function vbars(keys,series,unit){
+ const max=Math.max(1,...series.flatMap(s=>s.values));
+ const fmtv=v=>unit==='inr'?(v>=100000?'₹'+(v/100000).toFixed(1)+'L':v>=1000?'₹'+Math.round(v/1000)+'k':'₹'+v):v;
+ return `<div class="vb" role="img" aria-label="${esc(series.map(s=>s.name+': '+s.values.map((v,i)=>mLabel(keys[i])+' '+(unit==='inr'?inr(v):v)).join(', ')).join('; '))}">
+  ${keys.map((k,i)=>`<div class="vbc"><div class="vbbars">${series.map(s=>`<span class="vbb ${s.cls}" style="height:${s.values[i]/max*100}%" title="${esc(s.name)} ${mLabel(k)}: ${unit==='inr'?inr(s.values[i]):s.values[i]}">${s.values[i]?`<em>${fmtv(s.values[i])}</em>`:''}</span>`).join('')}</div><span class="vbl">${mLabel(k)}</span></div>`).join('')}</div>
+  <div class="leg">${series.map(s=>`<span><i class="${s.cls}"></i>${esc(s.name)}</span>`).join('')}</div>`;
+}
+async function loadDash(){
+ const host=$('#dashBody');
+ if(!DB||!UID||!CAN_EDIT){host.innerHTML='<div class="empty-r">The dashboard is available to KEPR admins when this tool is opened signed in to claude.ai.</div>';return}
+ host.innerHTML='<div class="empty-r">Loading dashboard…</div>';
+ try{
+  const [recs,manualQ,months]=await Promise.all([fetchRecords(),DB.collection('payroll/staff/people').get(),DB.collection('payroll').get()]);
+  const man=manualQ.docs.map(d=>{const x=d.data()||{};return {manual:true,recordId:d.id,role:'manual',roleName:x.designation||'Staff',createdAt:x.createdAt,values:{full_name:x.name,site:x.site,salary:x.salary,joining_date:x.joining_date},exit:x.lastDay?{lastDay:x.lastDay}:null}});
+  const today=new Date();today.setHours(0,0,0,0);const curK=mKey(today);
+  const exited=r=>{const ld=r.exit&&dOnly(r.exit.lastDay);return !!(ld&&ld<today)};
+  const staff=recs.filter(r=>r.role!=='vendor').concat(man),vendors=recs.filter(r=>r.role==='vendor');
+  const active=staff.filter(r=>!exited(r)),activeV=vendors.filter(r=>!exited(r));
+  const joinK=r=>{const d=dOnly((r.values||{}).joining_date)||dOnly(r.createdAt);return d?mKey(d):''};
+  const exitK=r=>{const d=r.exit&&dOnly(r.exit.lastDay);return d?mKey(d):''};
+  const joinedNow=staff.filter(r=>joinK(r)===curK).length,exitsNow=staff.filter(r=>exitK(r)===curK).length;
+  const onb=recs.filter(r=>!r.manual&&!exited(r));const lettersDone=onb.filter(r=>r.offerLetter).length;
+  const monthlyBill=active.reduce((a,r)=>a+(+(r.values||{}).salary||0),0);
+  // payroll
+  const pm={};let advG=0,advR=0;
+  months.docs.forEach(d=>{if(d.id==='staff')return;const x=d.data()||{};let net=0,paid=0;Object.values(x.rows||{}).forEach(R=>{const c=R.calc||{};const i=R.inp||{};net+=+c.net||0;paid+=Math.max(0,+i.paidAmt||0)||(R.paid?+c.net||0:0);advG+=Math.max(0,+i.advGiven||0);advR+=Math.max(0,+i.advance||0)});pm[d.id]={net,paid}});
+  const payK=defaultMonth(),payNow=pm[payK]||{net:0,paid:0};
+  const keys=lastMonths(6);
+  // breakdowns
+  const byRole={},bySite={};active.forEach(r=>{const k=r.roleName||'Staff';byRole[k]=(byRole[k]||0)+1;const s=(r.values||{}).site||'Not set';bySite[s]=(bySite[s]||0)+1});
+  const roleItems=Object.entries(byRole).map(([label,value])=>({label,value})).sort((a,b)=>b.value-a.value);
+  const siteItems=Object.entries(bySite).map(([label,value])=>({label,value})).sort((a,b)=>b.value-a.value).slice(0,8);
+  // agreements ending
+  const soon=[];const lim=new Date(today);lim.setDate(lim.getDate()+30);
+  staff.filter(r=>!r.manual&&!r.exit).forEach(r=>{const jd=dOnly((r.values||{}).joining_date);if(!jd)return;const end=new Date(jd);end.setMonth(end.getMonth()+(+letterOpts(r).termMonths||6));if(end>=today&&end<=lim)soon.push({r,end})});
+  soon.sort((a,b)=>a.end-b.end);
+  const pendingLetters=onb.filter(r=>!r.offerLetter).slice(0,6);
+  const recent=recs.slice().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt))).slice(0,6);
+  const pmName=mLabel(payK);
+  host.innerHTML=`
+  <div class="kpis">
+   <div class="kpi"><span>Active staff</span><b>${active.length}</b><small>${vendors.length?activeV.length+' active vendor'+(activeV.length===1?'':'s'):'No vendors yet'}</small></div>
+   <div class="kpi"><span>Joined this month</span><b>${joinedNow}</b><small>${exitsNow} exit${exitsNow===1?'':'s'} this month</small></div>
+   <div class="kpi"><span>Monthly salary bill</span><b>${inr(monthlyBill)}</b><small>Gross, active staff</small></div>
+   <div class="kpi"><span>Net payable · ${esc(pmName)}</span><b>${inr(payNow.net)}</b><small>${payNow.net?`${inr(payNow.paid)} paid · ${inr(Math.max(0,payNow.net-payNow.paid))} due`:'Not saved in Salary yet'}</small></div>
+   <div class="kpi"><span>Advances outstanding</span><b>${inr(Math.max(0,advG-advR))}</b><small>${inr(advG)} given · ${inr(advR)} recovered</small></div>
+   <div class="kpi"><span>Offer letters</span><b>${lettersDone} / ${onb.length}</b><small>${onb.length-lettersDone} pending</small></div>
+  </div>
+  <div class="dgrid">
+   <section class="panel"><h3>Salary paid vs payable</h3><p class="sub">Last 6 months, from saved salary sheets</p>${vbars(keys,[{name:'Net payable',cls:'s1',values:keys.map(k=>Math.round((pm[k]||{}).net||0))},{name:'Paid',cls:'s2',values:keys.map(k=>Math.round((pm[k]||{}).paid||0))}],'inr')}</section>
+   <section class="panel"><h3>Joins and exits</h3><p class="sub">Staff, last 6 months</p>${vbars(keys,[{name:'Joined',cls:'s2',values:keys.map(k=>staff.filter(r=>joinK(r)===k).length)},{name:'Exited',cls:'s3',values:keys.map(k=>staff.filter(r=>exitK(r)===k).length)}])}</section>
+   <section class="panel"><h3>Active staff by role</h3>${hbars(roleItems)}</section>
+   <section class="panel"><h3>Active staff by site</h3>${hbars(siteItems)}</section>
+   <section class="panel"><h3>Agreements ending in 30 days</h3>${soon.length?`<ul class="dlist">${soon.map(x=>`<li><b>${esc(recName(x.r))}</b><span>${esc(x.r.roleName)}${(x.r.values||{}).site?' · '+esc(x.r.values.site):''}</span><em>${esc(fmtD(x.end))}</em></li>`).join('')}</ul>`:'<p class="dempty">No agreements end in the next 30 days.</p>'}</section>
+   <section class="panel"><h3>Offer letters pending</h3>${pendingLetters.length?`<ul class="dlist">${pendingLetters.map(r=>`<li><b>${esc(recName(r))}</b><span>${esc(r.roleName)}${(r.values||{}).site?' · '+esc(r.values.site):''}</span><button class="btn sm" data-dl="${esc(r.recordId)}">Issue</button></li>`).join('')}</ul>`:'<p class="dempty">Every active person has a letter.</p>'}</section>
+   <section class="panel wide"><h3>Recently onboarded</h3>${recent.length?`<ul class="dlist">${recent.map(r=>`<li>${r.photo?`<img class="av" src="${bu(r.photo.id)}" alt="" loading="lazy">`:'<span class="av" style="display:inline-block"></span>'}<b>${esc(recName(r))}</b><span>${esc(r.roleName)}${(r.values||{}).site?' · '+esc(r.values.site):''}</span><em>${esc(fmtD(r.createdAt))}</em></li>`).join('')}</ul>`:'<p class="dempty">No one onboarded yet.</p>'}</section>
+  </div>
+  <p class="hint" style="font-size:12.5px;color:var(--muted);margin-top:12px">Updated ${new Date().toLocaleString('en-IN',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}. Salary figures come from months saved in the Salary tab.</p>`;
+  host.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>{const r=recs.find(x=>x.recordId===b.dataset.dl);if(!r)return;$('#dlg').classList.add('wide');$('#dlgT').textContent=r.role==='vendor'?'Empanelment letter':'Offer letter';letterEditor($('#dlgB'),r,{after:()=>loadDash()});$('#dlg').showModal()});
+ }catch(e){console.error(e);host.innerHTML='<div class="empty-r">The dashboard could not be loaded. Try Refresh.</div>'}
+}
+
+/* ---------------- init ---------------- */
+$('#tabDash').onclick=()=>showTab('dash');$('#dashRefresh').onclick=loadDash;$('#tabNew').onclick=()=>showTab('new');$('#tabRec').onclick=()=>showTab('rec');$('#tabPay').onclick=()=>showTab('pay');$('#tabExit').onclick=()=>showTab('exit');
+$('#payMonth').addEventListener('change',()=>{if(PAY.dirty&&!confirmLeave())return;loadPay()});
+['pf','esi','pt'].forEach(k=>$('#pay_'+k).addEventListener('change',e=>{PAY.settings[k]=e.target.checked;PAY.dirty=true;$('#paySave').classList.add('primary');if(PAY.recs.length)drawPay()}));
+$('#pay_leave').addEventListener('change',e=>{PAY.settings.leave=+e.target.value;PAY.dirty=true;$('#paySave').classList.add('primary');if(PAY.recs.length)drawPay()});
+$('#paySave').onclick=savePay;$('#payAdd').onclick=()=>{if(DB&&CAN_EDIT)staffForm(null)};$('#payCsv').onclick=()=>{if(PAY.recs.length)payCSV()};
+$('#exq').addEventListener('input',()=>EXR.length&&drawExits());$('#exshow').addEventListener('change',()=>EXR.length&&drawExits());$('#exRefresh').onclick=loadExits;
+function confirmLeave(){toast('Unsaved salary changes were discarded');return true}
+$('#dlgX').onclick=()=>$('#dlg').close();
+$('#rrole').innerHTML='<option value="">All roles</option>'+ROLES.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
+['rq','rrole'].forEach(id=>$('#'+id).addEventListener(id==='rq'?'input':'change',drawRecords));
+$('#rrefresh').onclick=loadRecords;$('#rcsv').onclick=csvExport;
+loadDraft().catch(()=>{}).then(render);
+/* ---------------- local storage backend (standalone file) ---------------- */
+const BLOBURL={};
+function bu(id){return BLOBURL[id]||''}
+const LOCAL=(()=>{
+ let dbp=null;
+ const open=()=>dbp||(dbp=new Promise((res,rej)=>{const r=indexedDB.open('kepr-local-data',1);r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('docs');d.createObjectStore('blobs')};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
+ const tx=(store,mode,fn)=>open().then(d=>new Promise((res,rej)=>{const t=d.transaction(store,mode);const rq=fn(t.objectStore(store));t.oncomplete=()=>res(rq&&rq.result);t.onerror=()=>rej(t.error)}));
+ const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
+ const segs=p=>p.split('/').filter(Boolean);
+ const db={
+  doc:(path)=>({
+   get:async()=>{const v=await tx('docs','readonly',st=>st.get(path));return {id:segs(path).pop(),exists:v!=null,data:()=>clone(v)}},
+   set:async(data)=>{await tx('docs','readwrite',st=>st.put(clone(data),path))},
+   update:async(data)=>{const cur=await tx('docs','readonly',st=>st.get(path));if(cur==null)throw Object.assign(new Error('not found'),{code:'not_found'});await tx('docs','readwrite',st=>st.put(Object.assign(cur,clone(data)),path))},
+   delete:async()=>{await tx('docs','readwrite',st=>st.delete(path))}
+  }),
+  collection:(path)=>({get:async()=>{
+   const keys=await tx('docs','readonly',st=>st.getAllKeys());const n=segs(path).length+1;const pre=path.replace(/\/$/,'')+'/';
+   const ks=keys.filter(k=>k.startsWith(pre)&&segs(k).length===n);
+   const docs=[];for(const k of ks){const v=await tx('docs','readonly',st=>st.get(k));docs.push({id:segs(k).pop(),data:()=>clone(v)})}
+   return {docs}}})
+ };
+ const assets={upload:async(blob)=>{const id=Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');await tx('blobs','readwrite',st=>st.put(blob,id));BLOBURL[id]=URL.createObjectURL(blob);return {id,url:BLOBURL[id]}}};
+ const getBlob=id=>tx('blobs','readonly',st=>st.get(id));
+ async function loadBlobs(){const keys=await tx('blobs','readonly',st=>st.getAllKeys());for(const k of keys){if(BLOBURL[k])continue;const b=await getBlob(k);if(b)BLOBURL[k]=URL.createObjectURL(b)}}
+ const dl={save:async({filename,data})=>{const u=URL.createObjectURL(data);const a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}};
+ const b64=blob=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(',')[1]);f.readAsDataURL(blob)});
+ async function backup(){
+  const keys=await tx('docs','readonly',st=>st.getAllKeys());const docs={};for(const k of keys)docs[k]=await tx('docs','readonly',st=>st.get(k));
+  const bk=await tx('blobs','readonly',st=>st.getAllKeys());const blobs={};for(const k of bk){const b=await getBlob(k);if(b)blobs[k]={type:b.type,data:await b64(b)}}
+  const out=new Blob([JSON.stringify({app:'kepr-onboarding',version:1,exportedAt:new Date().toISOString(),docs,blobs})],{type:'application/json'});
+  await dl.save({filename:`KEPR_backup_${new Date().toISOString().slice(0,10)}.json`,data:out});
+ }
+ async function restore(file){
+  const j=JSON.parse(await file.text());if(!j||j.app!=='kepr-onboarding')throw new Error('Not a KEPR backup file');
+  await tx('docs','readwrite',st=>st.clear());await tx('blobs','readwrite',st=>st.clear());
+  for(const [k,v] of Object.entries(j.docs||{}))await tx('docs','readwrite',st=>st.put(v,k));
+  for(const [k,v] of Object.entries(j.blobs||{})){const bin=atob(v.data);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);await tx('blobs','readwrite',st=>st.put(new Blob([a],{type:v.type}),k))}
+  Object.keys(BLOBURL).forEach(k=>{URL.revokeObjectURL(BLOBURL[k]);delete BLOBURL[k]});await loadBlobs();
+ }
+ return {db,assets,dl,getBlob,loadBlobs,backup,restore};
+})();
+(async()=>{
+ try{
+  await LOCAL.loadBlobs();
+  DB=LOCAL.db;ASSETS=LOCAL.assets;DL=LOCAL.dl;UID='local';CAN_EDIT=true;
+  $('#rcsv').hidden=false;$('#tabPay').hidden=false;$('#tabExit').hidden=false;$('#tabDash').hidden=false;$('#bkBar').hidden=false;
+  if(activeSteps()[S.step]&&activeSteps()[S.step].id==='review')render();
+ }catch(e){console.warn(e);toast('This browser blocked local storage, so data cannot be saved here.')}
+ $('#bkSave').onclick=async()=>{try{await LOCAL.backup();toast('Backup downloaded')}catch(e){toast('Backup failed')}};
+ $('#bkLoad').onclick=()=>pickFile('application/json,.json',null,async f=>{if(!confirm('Restore this backup? It replaces all data currently in this browser.'))return;try{await LOCAL.restore(f);toast('Backup restored');showTab('dash')}catch(e){toast(e.message||'Restore failed')}});
+})();
+})();
+</script>
+</body>
+</html>
